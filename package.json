@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "chrome": "start chrome -incognito -auto-open-devtools-for-tabs http://localhost:4200",
+    "start": "npm run chrome && ng serve --force-esbuild",
     "build": "ng build",
     "http-server": "npx http-server dist/activity-bookings/browser -c-1",
     "watch": "ng build --watch --configuration development",

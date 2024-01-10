@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -7,7 +7,8 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterOutlet],
   template: `
-    <h1>Welcome to {{title}}!</h1>
+    <h1>Welcome to {{ title }}!!!</h1>
+    <p>Angular works!</p>
 
     <router-outlet></router-outlet>
   `,
