@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "http-server": "npx http-server dist/activity-bookings/browser -c-1",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:ActivityBookings": "node dist/activity-bookings/server/server.mjs"
