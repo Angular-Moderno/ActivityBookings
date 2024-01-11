@@ -9,7 +9,8 @@
     "http-server": "npx http-server dist/activity-bookings/browser -c-1",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:ActivityBookings": "node dist/activity-bookings/server/server.mjs"
+    "serve:ssr:ActivityBookings": "node dist/activity-bookings/server/server.mjs",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -30,17 +31,29 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.0.9",
+    "@angular-eslint/builder": "17.2.0",
+    "@angular-eslint/eslint-plugin": "17.2.0",
+    "@angular-eslint/eslint-plugin-template": "17.2.0",
+    "@angular-eslint/schematics": "17.2.0",
+    "@angular-eslint/template-parser": "17.2.0",
     "@angular/cli": "^17.0.9",
     "@angular/compiler-cli": "^17.0.0",
     "@types/express": "^4.17.17",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^18.18.0",
+    "@typescript-eslint/eslint-plugin": "6.18.0",
+    "@typescript-eslint/parser": "6.18.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "prettier": "^3.1.1",
+    "prettier-eslint": "^16.2.0",
     "typescript": "~5.2.2"
   }
 }
