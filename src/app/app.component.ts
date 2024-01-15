@@ -8,7 +8,7 @@ import { RouterOutlet } from '@angular/router';
   imports: [CommonModule, RouterOutlet],
   template: `
     <h1>Welcome to {{ title }}!!!</h1>
-    <p>Angular works!</p>
+    <p>Angular works!!</p>
 
     <router-outlet></router-outlet>
   `,
