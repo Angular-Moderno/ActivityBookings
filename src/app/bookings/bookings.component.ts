@@ -53,14 +53,19 @@ import { Activity } from '../domain/activity.type';
       </main>
       <footer>
         <h4>New Bookings</h4>
-        <label for="newParticipants">How many participants want to book?</label>
-        <input
-          type="number"
-          [ngModel]="newParticipants()"
-          (ngModelChange)="onNewParticipantsChange($event)"
-          min="0"
-          [max]="maxNewParticipants"
-        />
+        @if (remainingPlaces() > 0) {
+          <label for="newParticipants">How many participants want to book?</label>
+          <input
+            type="number"
+            [ngModel]="newParticipants()"
+            (ngModelChange)="onNewParticipantsChange($event)"
+            min="0"
+            [max]="maxNewParticipants"
+          />
+        } @else {
+          <button class="secondary outline" (click)="onNewParticipantsChange(0)">Reset</button>
+          <span>Sorry, no more places available!</span>
+        }
         <button [disabled]="canNotBook()" (click)="onBookClick()">
           Book now for {{ bookingAmount() | currency }}!
         </button>
