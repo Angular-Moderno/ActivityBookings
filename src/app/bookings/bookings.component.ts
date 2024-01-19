@@ -1,11 +1,12 @@
 import { CurrencyPipe, DatePipe, UpperCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Activity } from '../domain/activity.type';
 
 @Component({
   selector: 'lab-bookings',
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, UpperCasePipe],
+  imports: [CurrencyPipe, DatePipe, UpperCasePipe, FormsModule],
   styles: `
     .draft {
       color: aqua;
@@ -44,10 +45,26 @@ import { Activity } from '../domain/activity.type';
       <main>
         <h4>Participants</h4>
         <div>Already Participants: {{ alreadyParticipants }}</div>
+        <ul>
+          <li>New Participants: {{ newParticipants() }}</li>
+          <li>Total participants: {{ totalParticipants() }}</li>
+          <li>Remaining places: {{ remainingPlaces() }}</li>
+        </ul>
       </main>
       <footer>
         <h4>New Bookings</h4>
-        <button>Book now!</button>
+        <label for="newParticipants">How many participants want to book?</label>
+        <input
+          type="number"
+          [ngModel]="newParticipants()"
+          (ngModelChange)="onNewParticipantsChange($event)"
+          min="0"
+          [max]="maxNewParticipants"
+        />
+        <button [disabled]="canNotBook()" (click)="onBookClick()">
+          Book now for {{ bookingAmount() | currency }}!
+        </button>
+        {{ booked() ? 'Booked!' : '' }}
       </footer>
     </article>
   `,
@@ -67,4 +84,37 @@ export class BookingsComponent {
     userId: 1,
   };
   readonly alreadyParticipants = 3;
+  readonly maxNewParticipants = this.activity.maxParticipants - this.alreadyParticipants;
+
+  readonly totalParticipants = computed(() => this.alreadyParticipants + this.newParticipants());
+  readonly remainingPlaces = computed(
+    () => this.activity.maxParticipants - this.totalParticipants(),
+  );
+  readonly canNotBook = computed(() => this.booked() || this.newParticipants() === 0);
+  readonly bookingAmount = computed(() => this.newParticipants() * this.activity.price);
+
+  readonly newParticipants = signal(0);
+  readonly booked = signal(false);
+
+  constructor() {
+    effect(() => {
+      const totalParticipants = this.totalParticipants();
+      const activity = this.activity;
+      if (totalParticipants >= activity.maxParticipants) {
+        activity.status = 'sold-out';
+      } else if (totalParticipants >= activity.minParticipants) {
+        activity.status = 'confirmed';
+      } else {
+        activity.status = 'published';
+      }
+    });
+  }
+
+  onNewParticipantsChange(newParticipants: number) {
+    this.newParticipants.set(newParticipants);
+  }
+
+  onBookClick() {
+    this.booked.set(true);
+  }
 }
