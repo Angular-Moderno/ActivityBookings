@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
 @Component({
   selector: 'lab-footer',
@@ -11,7 +11,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
           <a [href]="author.homepage" target="_blank"> © {{ year }} {{ author.name }} </a>
         </span>
         <span>
-          <button (click)="onCookiesAccepted()" class="secondary outline">Accept Cookies</button>
+          @if (cookiesAccepted()) {
+            <small>🍪</small>
+          } @else {
+            <button (click)="onCookiesAccepted()" class="secondary outline">Accept Cookies</button>
+          }
         </span>
       </nav>
     </footer>
@@ -27,7 +31,10 @@ export class FooterComponent {
 
   readonly year = new Date().getFullYear();
 
+  cookiesAccepted = signal(false);
+
   onCookiesAccepted() {
     console.log('Cookies accepted');
+    this.cookiesAccepted.set(true);
   }
 }

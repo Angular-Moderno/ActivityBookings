@@ -45,6 +45,13 @@ import { Activity } from '../domain/activity.type';
       <main>
         <h4>Participants</h4>
         <div>Already Participants: {{ alreadyParticipants }}</div>
+        <div>
+          @for (participant of participants(); track participant.id) {
+            <span [attr.data-tooltip]="participant.id">🏃</span>
+          } @empty {
+            <span>No participants yet</span>
+          }
+        </div>
         <ul>
           <li>New Participants: {{ newParticipants() }}</li>
           <li>Total participants: {{ totalParticipants() }}</li>
@@ -91,6 +98,8 @@ export class BookingsComponent {
   readonly alreadyParticipants = 3;
   readonly maxNewParticipants = this.activity.maxParticipants - this.alreadyParticipants;
 
+  readonly participants = signal<{ id: number }[]>([{ id: 1 }, { id: 2 }, { id: 3 }]);
+
   readonly totalParticipants = computed(() => this.alreadyParticipants + this.newParticipants());
   readonly remainingPlaces = computed(
     () => this.activity.maxParticipants - this.totalParticipants(),
@@ -116,7 +125,17 @@ export class BookingsComponent {
   }
 
   onNewParticipantsChange(newParticipants: number) {
+    if (newParticipants > this.maxNewParticipants) {
+      newParticipants = this.maxNewParticipants;
+    }
     this.newParticipants.set(newParticipants);
+    this.participants.update((participants) => {
+      participants = participants.slice(0, this.alreadyParticipants);
+      for (let i = 0; i < newParticipants; i++) {
+        participants.push({ id: participants.length + 1 });
+      }
+      return participants;
+    });
   }
 
   onBookClick() {
