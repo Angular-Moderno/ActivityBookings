@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { BookingsComponent } from './bookings/bookings.component';
@@ -8,7 +7,7 @@ import { HeaderComponent } from './core/header.component';
 @Component({
   selector: 'lab-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, FooterComponent, HeaderComponent, BookingsComponent],
+  imports: [RouterOutlet, FooterComponent, HeaderComponent, BookingsComponent],
   template: `
     <lab-header />
     <lab-bookings />
