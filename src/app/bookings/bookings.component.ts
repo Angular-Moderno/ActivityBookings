@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Activity } from '../domain/activity.type';
 
 @Component({
-  selector: 'lab-bookings',
   standalone: true,
   imports: [CurrencyPipe, DatePipe, UpperCasePipe, FormsModule],
   styles: `
