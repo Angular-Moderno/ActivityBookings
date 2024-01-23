@@ -1,13 +1,15 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'lab-header',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   template: `
     <header>
       <nav>
-        <a href=""> {{ title }} </a>
+        <a routerLink=""> {{ title }} </a>
+        <a routerLink="auth/login"> Login </a>
       </nav>
     </header>
   `,
