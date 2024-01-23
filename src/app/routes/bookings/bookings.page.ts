@@ -1,7 +1,7 @@
 import { CurrencyPipe, DatePipe, UpperCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Activity } from '../domain/activity.type';
+import { Activity } from '../../domain/activity.type';
 
 @Component({
   standalone: true,
@@ -80,7 +80,7 @@ import { Activity } from '../domain/activity.type';
     </article>
   `,
 })
-export class BookingsComponent {
+export default class BookingsPage {
   readonly activity: Activity = {
     name: 'Paddle surf',
     location: 'Lake Leman at Lausanne',
