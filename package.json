@@ -6,10 +6,10 @@
     "chrome": "start chrome -incognito -auto-open-devtools-for-tabs http://localhost:4200",
     "start": "npm run chrome && ng serve --force-esbuild",
     "build": "ng build",
-    "http-server": "npx http-server dist/activity-bookings/browser -c-1",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:ActivityBookings": "node dist/activity-bookings/server/server.mjs",
+    "serve": "npm run build && npm run serve:ssr:ActivityBookings",
     "lint": "ng lint"
   },
   "private": true,
@@ -28,10 +28,10 @@
     "express": "^4.18.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.2"
+    "zone.js": "~0.14.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^17.1.0",
+    "@angular-devkit/build-angular": "^17.0.10",
     "@angular-eslint/builder": "17.2.1",
     "@angular-eslint/eslint-plugin": "17.2.1",
     "@angular-eslint/eslint-plugin-template": "17.2.1",
@@ -55,6 +55,6 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "prettier": "^3.1.1",
     "prettier-eslint": "^16.2.0",
-    "typescript": "~5.2.2"
+    "typescript": "~5.3.2"
   }
 }
