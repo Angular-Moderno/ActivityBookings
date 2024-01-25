@@ -1,6 +1,6 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Activity } from '../domain/activity.type';
 
@@ -13,7 +13,7 @@ import { Activity } from '../domain/activity.type';
         <h2>Activities</h2>
       </header>
       <main>
-        @for (activity of activities; track activity.id) {
+        @for (activity of activities(); track activity.id) {
           <div>
             <span>
               <a [routerLink]="['/bookings', activity.slug]">{{ activity.name }}</a>
@@ -32,11 +32,12 @@ import { Activity } from '../domain/activity.type';
 export default class HomePage {
   #httpClient$: HttpClient = inject(HttpClient);
   #apiUrl = 'http://localhost:3000/activities';
-  activities: Activity[] = [];
+  activities = signal<Activity[]>([]);
 
   constructor() {
     this.#httpClient$.get<Activity[]>(this.#apiUrl).subscribe((result) => {
-      this.activities = result;
+      this.activities.set(result);
+      console.log('a', this.activities);
     });
   }
 }
