@@ -10,8 +10,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ACTIVITIES } from '../../domain/activities.data';
-import { Activity } from '../../domain/activity.type';
+import { Activity, NULL_ACTIVITY } from '../../domain/activity.type';
 import { Booking } from '../../domain/booking.type';
 
 @Component({
@@ -91,7 +90,10 @@ import { Booking } from '../../domain/booking.type';
                 <span>No more places available</span>
               </div>
             }
-            <button [disabled]="booked() || newParticipants() === 0" (click)="onBookClick()">
+            <button
+              [disabled]="booked() || newParticipants() === 0"
+              (click)="onBookParticipantsClick()"
+            >
               Book {{ newParticipants() }} places now for {{ bookingAmount() | currency }}!
             </button>
             <div>{{ bookedMessage() }}</div>
@@ -105,11 +107,11 @@ export default class BookingsPage {
   #http$ = inject(HttpClient);
   #activitiesUrl = 'http://localhost:3000/activities';
   #bookingsUrl = 'http://localhost:3000/bookings';
-
   slug = input<string>();
-  activity = computed(() => ACTIVITIES[3]);
 
-  alreadyParticipants = computed(() => 0);
+  activity = signal<Activity>(NULL_ACTIVITY);
+
+  alreadyParticipants = signal(0);
   maxNewParticipants = computed(() => this.activity().maxParticipants - this.alreadyParticipants());
   isBookable = computed(() => ['published', 'confirmed'].includes(this.activity().status));
 
@@ -127,35 +129,58 @@ export default class BookingsPage {
   });
 
   constructor() {
-    effect(
-      () => {
-        this.participants.update((participants) => {
-          participants.splice(0, participants.length);
-          for (let i = 0; i < this.totalParticipants(); i++) {
-            participants.push({ id: participants.length + 1 });
-          }
-          return participants;
-        });
-      },
-      {
-        allowSignalWrites: true,
-      },
-    );
-    effect(() => {
-      if (!this.isBookable()) {
-        return;
+    const ALLOW_WRITE = { allowSignalWrites: true };
+    effect(() => this.#getActivityOnSlug(), ALLOW_WRITE);
+    effect(() => this.#getParticipantsOnActivity(), ALLOW_WRITE);
+    effect(() => this.#changeStatusOnTotalParticipants(), ALLOW_WRITE);
+    effect(() => this.#updateActivityOnBookings(), ALLOW_WRITE);
+  }
+
+  #getActivityOnSlug() {
+    const activityUrl = `${this.#activitiesUrl}?slug=${this.slug()}`;
+    this.#http$.get<Activity[]>(activityUrl).subscribe((activities) => {
+      this.activity.set(activities[0] || NULL_ACTIVITY);
+    });
+  }
+
+  #getParticipantsOnActivity() {
+    const id = this.activity().id;
+    if (id === 0) return;
+    const bookingsUrl = `${this.#bookingsUrl}?activityId=${id}`;
+    this.#http$.get<Booking[]>(bookingsUrl).subscribe((bookings) => {
+      bookings.forEach((booking) => {
+        this.alreadyParticipants.update((participants) => participants + booking.participants);
+      });
+    });
+  }
+
+  #changeStatusOnTotalParticipants() {
+    const totalParticipants = this.totalParticipants();
+    const activity = this.activity();
+    let newStatus = activity.status;
+    if (totalParticipants >= activity.maxParticipants) {
+      newStatus = 'sold-out';
+    } else if (totalParticipants >= activity.minParticipants) {
+      newStatus = 'confirmed';
+    } else {
+      newStatus = 'published';
+    }
+    activity.status = newStatus;
+    this.participants.update((participants) => {
+      participants.splice(0, participants.length);
+      for (let i = 0; i < totalParticipants; i++) {
+        participants.push({ id: participants.length + 1 });
       }
-      const totalParticipants = this.totalParticipants();
-      const activity = this.activity();
-      let newStatus = activity.status;
-      if (totalParticipants >= activity.maxParticipants) {
-        newStatus = 'sold-out';
-      } else if (totalParticipants >= activity.minParticipants) {
-        newStatus = 'confirmed';
-      } else {
-        newStatus = 'published';
-      }
-      activity.status = newStatus;
+      return participants;
+    });
+  }
+
+  #updateActivityOnBookings() {
+    if (!this.booked()) return;
+    const activityUrl = `${this.#activitiesUrl}/${this.activity().id}`;
+    this.#http$.put<Activity>(activityUrl, this.activity()).subscribe({
+      next: () => console.log('Activity status updated'),
+      error: (error) => console.error('Error updating activity', error),
     });
   }
 
@@ -166,9 +191,7 @@ export default class BookingsPage {
     this.newParticipants.set(newParticipants);
   }
 
-  onBookClick() {
-    this.booked.set(true);
-
+  onBookParticipantsClick() {
     const newBooking: Booking = {
       id: 0,
       userId: 0,
@@ -181,23 +204,9 @@ export default class BookingsPage {
         status: 'pending',
       },
     };
-
-    this.#http$.post(this.#bookingsUrl, newBooking).subscribe({
-      next: (result) => {
-        console.log(result);
-        this.#updateActivityStatus();
-      },
-      error: (error) => {
-        console.error('Error creating booking', error);
-      },
-    });
-  }
-
-  #updateActivityStatus() {
-    const activityUrl = `${this.#activitiesUrl}/${this.activity().id}`;
-    this.#http$.put<Activity>(activityUrl, this.activity()).subscribe({
-      next: () => console.log('Activity status updated'),
-      error: (error) => console.error('Error updating activity', error),
+    this.#http$.post<Booking>(this.#bookingsUrl, newBooking).subscribe({
+      next: () => this.booked.set(true),
+      error: (error) => console.error('Error creating booking', error),
     });
   }
 }
