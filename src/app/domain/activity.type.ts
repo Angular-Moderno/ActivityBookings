@@ -15,7 +15,7 @@ export type Activity = {
   name: string;
   slug: string;
   price: number;
-  date: Date;
+  date: Date | string;
   duration: number;
   location: string;
   minParticipants: number;
