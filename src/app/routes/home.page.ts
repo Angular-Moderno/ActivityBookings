@@ -35,9 +35,8 @@ export default class HomePage {
   activities = signal<Activity[]>([]);
 
   constructor() {
-    this.#httpClient$.get<Activity[]>(this.#apiUrl).subscribe((result) => {
-      this.activities.set(result);
-      console.log('a', this.activities);
-    });
+    this.#httpClient$
+      .get<Activity[]>(this.#apiUrl)
+      .subscribe((result) => this.activities.set(result));
   }
 }
