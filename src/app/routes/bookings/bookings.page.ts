@@ -10,6 +10,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { catchError, map, of } from 'rxjs';
 import { Activity, NULL_ACTIVITY } from '../../domain/activity.type';
 import { Booking } from '../../domain/booking.type';
 
@@ -138,9 +139,18 @@ export default class BookingsPage {
 
   #getActivityOnSlug() {
     const activityUrl = `${this.#activitiesUrl}?slug=${this.slug()}`;
-    this.#http$.get<Activity[]>(activityUrl).subscribe((activities) => {
-      this.activity.set(activities[0] || NULL_ACTIVITY);
-    });
+    this.#http$
+      .get<Activity[]>(activityUrl)
+      .pipe(
+        map((activities: Activity[]) => activities[0] || NULL_ACTIVITY),
+        catchError((error) => {
+          console.error('Error getting activity', error);
+          return of(NULL_ACTIVITY);
+        }),
+      )
+      .subscribe((activity: Activity) => {
+        this.activity.set(activity);
+      });
   }
 
   #getParticipantsOnActivity() {
