@@ -1,7 +1,8 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ACTIVITIES } from '../domain/activities.data';
+import { Activity } from '../domain/activity.type';
 
 @Component({
   standalone: true,
@@ -29,5 +30,13 @@ import { ACTIVITIES } from '../domain/activities.data';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomePage {
-  activities = ACTIVITIES;
+  #httpClient$: HttpClient = inject(HttpClient);
+  #apiUrl = 'http://localhost:3000/activities';
+  activities: Activity[] = [];
+
+  constructor() {
+    this.#httpClient$.get<Activity[]>(this.#apiUrl).subscribe((result) => {
+      this.activities = result;
+    });
+  }
 }
