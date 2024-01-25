@@ -10,7 +10,10 @@
     "test": "ng test",
     "serve:ssr:ActivityBookings": "node dist/activity-bookings/server/server.mjs",
     "serve": "npm run build && npm run serve:ssr:ActivityBookings",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "api": "json-server-auth ./db/prod/d.json -r ./db/r.json",
+    "api:reset": "copyfiles -f ./db/reset/d.json ./db/prod && npm run api",
+    "api:seed": "copyfiles -f ./db/seed/d.json ./db/prod && npm run api"
   },
   "private": true,
   "dependencies": {
@@ -49,7 +52,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "jasmine-core": "~5.1.0",
-    "json-server": "^1.0.0-alpha.22",
+    "json-server": "^0.17.4",
     "json-server-auth": "^2.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
