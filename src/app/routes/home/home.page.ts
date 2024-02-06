@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Activity } from '../../domain/activity.type';
 import { ActivityComponent } from './activity.component';
+import { HomeService } from './home.service';
 
 @Component({
   standalone: true,
@@ -22,13 +22,10 @@ import { ActivityComponent } from './activity.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomePage {
-  #httpClient$: HttpClient = inject(HttpClient);
-  #apiUrl = 'http://localhost:3000/activities';
+  #service = inject(HomeService);
   activities = signal<Activity[]>([]);
 
   constructor() {
-    this.#httpClient$
-      .get<Activity[]>(this.#apiUrl)
-      .subscribe((result) => this.activities.set(result));
+    this.#service.getActivities().subscribe((result) => this.activities.set(result));
   }
 }
