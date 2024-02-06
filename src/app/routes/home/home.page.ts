@@ -2,7 +2,7 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Activity } from '../domain/activity.type';
+import { Activity } from '../../domain/activity.type';
 
 @Component({
   standalone: true,
