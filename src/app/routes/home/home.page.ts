@@ -1,12 +1,11 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { Activity } from '../../domain/activity.type';
+import { ActivityComponent } from './activity.component';
 
 @Component({
   standalone: true,
-  imports: [RouterLink, CurrencyPipe, DatePipe],
+  imports: [ActivityComponent],
   template: `
     <article>
       <header>
@@ -14,14 +13,7 @@ import { Activity } from '../../domain/activity.type';
       </header>
       <main>
         @for (activity of activities(); track activity.id) {
-          <div>
-            <span>
-              <a [routerLink]="['/bookings', activity.slug]">{{ activity.name }}</a>
-            </span>
-            <span>{{ activity.location }}</span>
-            <span>{{ activity.price | currency }}</span>
-            <span>{{ activity.date | date: 'dd-MMM-yyyy' }}</span>
-          </div>
+          <lab-activity [activity]="activity" />
         }
       </main>
     </article>
