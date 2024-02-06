@@ -12,7 +12,9 @@ import {
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { Observable, catchError, map, of, switchMap } from 'rxjs';
+import { ActivitiesService } from '@api/activities.service';
+import { toSignalMap } from '@api/signal.functions';
+import { Observable, of } from 'rxjs';
 import { Activity, NULL_ACTIVITY } from '../../domain/activity.type';
 import { Booking } from '../../domain/booking.type';
 
@@ -107,21 +109,15 @@ import { Booking } from '../../domain/booking.type';
   `,
 })
 export default class BookingsPage {
+  #activitiesService = inject(ActivitiesService);
   #http$ = inject(HttpClient);
-  #activitiesUrl = 'http://localhost:3000/activities';
   #bookingsUrl = 'http://localhost:3000/bookings';
   slug = input<string>();
 
-  activity: Signal<Activity> = toSignal(
-    toObservable(this.slug).pipe(
-      switchMap((slug) =>
-        this.#http$.get<Activity[]>(`${this.#activitiesUrl}?slug=${slug}`).pipe(
-          map((activities) => activities[0] || NULL_ACTIVITY),
-          catchError(() => of(NULL_ACTIVITY)),
-        ),
-      ),
-    ),
-    { initialValue: NULL_ACTIVITY },
+  activity: Signal<Activity> = toSignalMap(
+    this.slug,
+    (slug) => this.#activitiesService.getActivityBySlug(slug),
+    NULL_ACTIVITY,
   );
 
   simpleSignal: Signal<string> = toSignal(of('Angular'), { initialValue: '' });
@@ -146,27 +142,10 @@ export default class BookingsPage {
 
   constructor() {
     const ALLOW_WRITE = { allowSignalWrites: true };
-    //effect(() => this.#getActivityOnSlug(), ALLOW_WRITE);
     effect(() => this.#getParticipantsOnActivity(), ALLOW_WRITE);
     effect(() => this.#changeStatusOnTotalParticipants(), ALLOW_WRITE);
     effect(() => this.#updateActivityOnBookings(), ALLOW_WRITE);
   }
-
-  // #getActivityOnSlug() {
-  //   const activityUrl = `${this.#activitiesUrl}?slug=${this.slug()}`;
-  //   this.#http$
-  //     .get<Activity[]>(activityUrl)
-  //     .pipe(
-  //       map((activities: Activity[]) => activities[0] || NULL_ACTIVITY),
-  //       catchError((error) => {
-  //         console.error('Error getting activity', error);
-  //         return of(NULL_ACTIVITY);
-  //       }),
-  //     )
-  //     .subscribe((activity: Activity) => {
-  //       this.activity.set(activity);
-  //     });
-  // }
 
   #getParticipantsOnActivity() {
     const id = this.activity().id;
@@ -202,11 +181,9 @@ export default class BookingsPage {
 
   #updateActivityOnBookings() {
     if (!this.booked()) return;
-    const activityUrl = `${this.#activitiesUrl}/${this.activity().id}`;
-    this.#http$.put<Activity>(activityUrl, this.activity()).subscribe({
-      next: () => console.log('Activity status updated'),
-      error: (error) => console.error('Error updating activity', error),
-    });
+    this.#activitiesService
+      .putActivity(this.activity())
+      .subscribe(() => console.log('Activity status updated'));
   }
 
   onNewParticipantsChange(newParticipants: number) {
