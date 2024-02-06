@@ -94,6 +94,10 @@
           "inlineStyle": true,
           "inlineTemplate": true,
           "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "flat": true,
+          "skipTests": false
         }
       },
       "sourceRoot": "src"
