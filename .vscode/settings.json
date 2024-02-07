@@ -20,5 +20,7 @@
   },
   "peacock.color": "#007fff",
   "window.zoomLevel": 1,
-  "workbench.preferredLightColorTheme": "SynthWave '84"
+  "workbench.preferredLightColorTheme": "SynthWave '84",
+  "editor.hover.sticky": true,
+  "editor.hover.enabled": false
 }
