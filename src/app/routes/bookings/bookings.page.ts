@@ -14,9 +14,10 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivitiesService } from '@api/activities.service';
 import { toSignalMap } from '@api/signal.functions';
+import { changeActivityStatus } from '@domain/activity.functions';
+import { Activity, NULL_ACTIVITY } from '@domain/activity.type';
+import { Booking } from '@domain/booking.type';
 import { Observable, of } from 'rxjs';
-import { Activity, NULL_ACTIVITY } from 'src/app/domain/activity.type';
-import { Booking } from 'src/app/domain/booking.type';
 
 @Component({
   standalone: true,
@@ -139,16 +140,7 @@ export default class BookingsPage {
 
   #changeStatusOnTotalParticipants() {
     const totalParticipants = this.totalParticipants();
-    const activity = this.activity();
-    let newStatus = activity.status;
-    if (totalParticipants >= activity.maxParticipants) {
-      newStatus = 'sold-out';
-    } else if (totalParticipants >= activity.minParticipants) {
-      newStatus = 'confirmed';
-    } else {
-      newStatus = 'published';
-    }
-    activity.status = newStatus;
+    changeActivityStatus(this.activity(), totalParticipants);
     this.participants.update((participants) => {
       participants.splice(0, participants.length);
       for (let i = 0; i < totalParticipants; i++) {

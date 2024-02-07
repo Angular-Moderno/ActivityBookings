@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { Activity } from 'src/app/domain/activity.type';
+import { Activity } from '@domain/activity.type';
 import { ActivityComponent } from './activity.component';
 import { HomeService } from './home.service';
 
