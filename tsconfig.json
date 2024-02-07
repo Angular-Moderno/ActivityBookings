@@ -22,6 +22,7 @@
     "lib": ["ES2022", "dom"],
     "baseUrl": "./",
     "paths": {
+      "@ui/*": ["src/app/shared/ui/*"],
       "@domain/*": ["src/app/shared/domain/*"],
       "@api/*": ["src/app/shared/api/*"]
     }

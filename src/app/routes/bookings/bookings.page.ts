@@ -1,4 +1,4 @@
-import { CurrencyPipe, DatePipe, UpperCasePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -17,24 +17,24 @@ import { toSignalMap } from '@api/signal.functions';
 import { changeActivityStatus } from '@domain/activity.functions';
 import { Activity, NULL_ACTIVITY } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
+import { ActivityStatusComponent } from '@ui/activity-status.component';
 import { Observable, of } from 'rxjs';
 
 @Component({
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, FormsModule, UpperCasePipe],
-  styles: `
-    `,
+  imports: [CurrencyPipe, DatePipe, FormsModule, ActivityStatusComponent],
+  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     @if (activity(); as activity) {
       <article>
         <header>
           <h2>{{ activity.name }}</h2>
-          <div [class]="activity.status">
+          <div>
             <span>{{ activity.location }}</span>
             <span>{{ activity.price | currency }}</span>
             <span>{{ activity.date | date: 'dd-MMM-yyyy' }}</span>
-            <span>{{ activity.status | uppercase }}</span>
+            <lab-activity-status [status]="activity.status" />
           </div>
         </header>
         <main>
