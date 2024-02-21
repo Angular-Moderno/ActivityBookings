@@ -8,13 +8,13 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
     <footer>
       <nav>
         <span>
-          <a [href]="author.homepage" target="_blank"> © {{ year }} {{ author.name }} </a>
+          <a [href]="author.homepage" target="_blank"> © {{ getYear() }} {{ author.name }} </a>
         </span>
         <span>
           @if (cookiesAccepted()) {
-            <small>🍪</small>
+            <small>🍪 ✅</small>
           } @else {
-            <button (click)="onCookiesAccepted()" class="secondary outline">Accept Cookies</button>
+            <button (click)="onAcceptClick()" class="secondary outline">Accept Cookies</button>
           }
         </span>
       </nav>
@@ -24,17 +24,28 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
+  // Properties division
+
   readonly author = {
-    name: 'Alberto Basalo.',
+    name: 'Alberto Basalo',
     homepage: 'https://albertobasalo.dev',
   };
 
-  readonly year = new Date().getFullYear();
+  // Mutable signals division
 
-  cookiesAccepted = signal(false);
+  readonly cookiesAccepted = signal(false);
 
-  onCookiesAccepted() {
-    console.log('Cookies accepted');
+  // Public methods division
+
+  getYear(): number {
+    // ! Do not abuse (they are called on every change detection cycle)
+    return new Date().getFullYear();
+  }
+
+  // Event handlers division
+
+  onAcceptClick(): void {
+    console.log('Cookies accepted!');
     this.cookiesAccepted.set(true);
   }
 }

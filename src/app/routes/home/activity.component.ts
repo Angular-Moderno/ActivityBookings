@@ -1,8 +1,8 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, InputSignal, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Activity } from '@domain/activity.type';
 import { ActivityStatusComponent } from '@ui/activity-status.component';
-import { Activity } from '../../shared/domain/activity.type';
 
 @Component({
   selector: 'lab-activity',
@@ -23,5 +23,8 @@ import { Activity } from '../../shared/domain/activity.type';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActivityComponent {
-  activity = input.required<Activity>();
+  // * Input signals division
+
+  /** The current Activity to be presented*/
+  activity: InputSignal<Activity> = input.required<Activity>();
 }

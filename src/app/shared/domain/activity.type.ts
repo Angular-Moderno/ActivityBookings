@@ -1,3 +1,7 @@
+/**
+ * ActivityStatus type definition
+ * @description This is an enum for the activity possible status
+ */
 export type ActivityStatus =
   | 'published'
   | 'confirmed'
@@ -15,7 +19,7 @@ export type Activity = {
   name: string;
   slug: string;
   price: number;
-  date: Date | string;
+  date: Date;
   duration: number;
   location: string;
   minParticipants: number;
@@ -24,6 +28,7 @@ export type Activity = {
   userId: number;
 };
 
+/** Null object pattern for the Activity type */
 export const NULL_ACTIVITY: Activity = {
   id: 0,
   name: '',

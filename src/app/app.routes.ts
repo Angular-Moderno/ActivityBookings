@@ -6,15 +6,15 @@ export const routes: Routes = [
     loadComponent: () => import('./routes/home/home.page'),
   },
   {
-    path: 'bookings/:slug',
-    loadComponent: () => import('./routes/bookings/bookings.page'),
-  },
-  {
     path: 'auth/login',
-    loadComponent: () => import('./routes/auth/login.component'),
+    loadComponent: () => import('./routes/auth/login.page'),
   },
   {
     path: 'auth/register',
     loadComponent: () => import('./routes/auth/register.page'),
+  },
+  {
+    path: 'bookings/:slug',
+    loadComponent: () => import('./routes/bookings/bookings.page'),
   },
 ];

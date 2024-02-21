@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Activity } from '@domain/activity.type';
 import { ActivityComponent } from './activity.component';
 import { HomeService } from './home.service';
@@ -22,10 +23,12 @@ import { HomeService } from './home.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomePage {
-  #service = inject(HomeService);
-  activities = signal<Activity[]>([]);
+  // * Injected services division
 
-  constructor() {
-    this.#service.getActivities().subscribe((result) => this.activities.set(result));
-  }
+  #service = inject(HomeService);
+
+  // * Signals division
+
+  /** The list of activities to be presented */
+  activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
 }

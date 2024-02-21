@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
+  selector: 'lab-login',
   standalone: true,
   imports: [RouterLink],
   template: `
@@ -30,4 +31,4 @@ import { RouterLink } from '@angular/router';
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class LoginComponent {}
+export default class LoginPage {}

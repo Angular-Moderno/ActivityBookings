@@ -1,87 +1,53 @@
-import { CurrencyPipe, DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
   Signal,
+  WritableSignal,
   computed,
-  effect,
   inject,
   input,
   signal,
 } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { FormsModule } from '@angular/forms';
-import { ActivitiesService } from '@api/activities.service';
 import { toSignalMap } from '@api/signal.functions';
-import { changeActivityStatus } from '@domain/activity.functions';
-import { Activity, NULL_ACTIVITY } from '@domain/activity.type';
+import { getNextActivityStatus } from '@domain/activity.functions';
+import { Activity, ActivityStatus, NULL_ACTIVITY } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
-import { ActivityStatusComponent } from '@ui/activity-status.component';
-import { Observable, of } from 'rxjs';
+import { ActivityHeaderComponent } from './activity-header.component';
+import { BookingFormComponent } from './booking-form.component';
+import { BookingsService } from './bookings.service';
+import { ParticipantsComponent } from './participants.component';
 
 @Component({
+  selector: 'lab-bookings',
   standalone: true,
-  imports: [CurrencyPipe, DatePipe, FormsModule, ActivityStatusComponent],
-  styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: ``,
+  imports: [ActivityHeaderComponent, ParticipantsComponent, BookingFormComponent],
   template: `
     @if (activity(); as activity) {
       <article>
         <header>
-          <h2>{{ activity.name }}</h2>
-          <div>
-            <span>{{ activity.location }}</span>
-            <span>{{ activity.price | currency }}</span>
-            <span>{{ activity.date | date: 'dd-MMM-yyyy' }}</span>
-            <lab-activity-status [status]="activity.status" />
-          </div>
+          <lab-activity-header [activity]="activity" [activityStatus]="activityStatus()" />
         </header>
         <main>
-          <h4>Participants</h4>
-          <div>Already Participants: {{ alreadyParticipants() }}</div>
-          <div>Max Participants: {{ activity.maxParticipants }}</div>
-          <ul>
-            <li>New Participants: {{ newParticipants() }}</li>
-            <li>Remaining places: {{ remainingPlaces() }}</li>
-            <li>Total participants: {{ totalParticipants() }}</li>
-          </ul>
-          <div>
-            @for (participant of participants(); track participant.id) {
-              <span [attr.data-tooltip]="participant.id">🏃</span>
-            } @empty {
-              <span>🕸️</span>
-            }
-          </div>
+          <lab-participants
+            [activity]="activity"
+            [alreadyParticipants]="alreadyParticipants()"
+            [remainingPlaces]="remainingPlaces()"
+            [newParticipants]="newParticipants()"
+            [totalParticipants]="totalParticipants()"
+          />
         </main>
         <footer>
           @if (isBookable()) {
-            <h4>New Bookings</h4>
-            @if (remainingPlaces() > 0) {
-              <label for="newParticipants">How many participants want to book?</label>
-              <input
-                type="number"
-                name="newParticipants"
-                [ngModel]="newParticipants()"
-                (ngModelChange)="onNewParticipantsChange($event)"
-                min="0"
-                [max]="maxNewParticipants()"
-              />
-            } @else {
-              <div>
-                <button class="secondary outline" (click)="onNewParticipantsChange(0)">
-                  Reset
-                </button>
-                <span>No more places available</span>
-              </div>
-            }
-            <button
-              [disabled]="booked() || newParticipants() === 0"
-              (click)="onBookParticipantsClick()"
-            >
-              Book {{ newParticipants() }} places now for {{ bookingAmount() | currency }}!
-            </button>
-            <div>{{ bookedMessage() }}</div>
+            <lab-booking-form
+              [activity]="activity"
+              [alreadyParticipants]="alreadyParticipants()"
+              [remainingPlaces]="remainingPlaces()"
+              [bookingSaved]="bookingSaved()"
+              (changeParticipants)="onChangeParticipants($event)"
+              (saveBooking)="onSaveBooking($event)"
+            />
           }
         </footer>
       </article>
@@ -89,96 +55,74 @@ import { Observable, of } from 'rxjs';
   `,
 })
 export default class BookingsPage {
-  #activitiesService = inject(ActivitiesService);
-  #http$ = inject(HttpClient);
-  #bookingsUrl = 'http://localhost:3000/bookings';
-  slug = input<string>();
+  // * Injected services division
 
+  #service = inject(BookingsService);
+
+  // * Input signals division
+
+  /** The slug of the activity that comes from the router */
+  slug: Signal<string | undefined> = input<string>();
+
+  // * Signals division
+
+  bookingSaved: WritableSignal<boolean> = signal(false);
+  newParticipants: WritableSignal<number> = signal(0);
+
+  // * Computed signals division
+
+  /** The activity that comes from the API based on the slug signal */
   activity: Signal<Activity> = toSignalMap(
     this.slug,
-    (slug) => this.#activitiesService.getActivityBySlug(slug),
+    (slug) => this.#service.getActivityBySlug$(slug),
     NULL_ACTIVITY,
   );
+  /** The bookings of the activity that comes from the API based on the activity signal */
+  activityBookings: Signal<Booking[]> = toSignalMap(
+    this.activity,
+    (activity) => this.#service.getBookingsByActivityId$(activity.id),
+    [],
+  );
 
-  simpleSignal: Signal<string> = toSignal(of('Angular'), { initialValue: '' });
-  simpleObs: Observable<string | undefined> = toObservable(this.slug);
+  /** The sum of participants of the bookings of the activity */
+  alreadyParticipants: Signal<number> = computed(() =>
+    this.activityBookings().reduce((acc, booking) => acc + booking.participants, 0),
+  );
 
-  alreadyParticipants = signal(0);
-  maxNewParticipants = computed(() => this.activity().maxParticipants - this.alreadyParticipants());
-  isBookable = computed(() => ['published', 'confirmed'].includes(this.activity().status));
+  /** Already booked plus new participants */
+  totalParticipants: Signal<number> = computed(
+    () => this.alreadyParticipants() + this.newParticipants(),
+  );
 
-  newParticipants = signal(0);
-  booked = signal(false);
-  participants = signal<{ id: number }[]>([]);
+  /** Activity status computed from current activity and total participants */
+  activityStatus: Signal<ActivityStatus> = computed(() =>
+    getNextActivityStatus(this.activity(), this.totalParticipants()),
+  );
 
-  totalParticipants = computed(() => this.alreadyParticipants() + this.newParticipants());
-  remainingPlaces = computed(() => this.activity().maxParticipants - this.totalParticipants());
-  bookingAmount = computed(() => this.newParticipants() * this.activity().price);
+  /** If the activity has an status bookable */
+  isBookable: Signal<boolean> = computed(() =>
+    ['published', 'confirmed'].includes(this.activity().status),
+  );
 
-  bookedMessage = computed(() => {
-    if (this.booked()) return `Booked USD ${this.bookingAmount()}`;
-    return '';
-  });
+  /** Remaining places to book */
+  remainingPlaces: Signal<number> = computed(
+    () => this.activity().maxParticipants - this.totalParticipants(),
+  );
 
-  constructor() {
-    const ALLOW_WRITE = { allowSignalWrites: true };
-    effect(() => this.#getParticipantsOnActivity(), ALLOW_WRITE);
-    effect(() => this.#changeStatusOnTotalParticipants(), ALLOW_WRITE);
-    effect(() => this.#updateActivityOnBookings(), ALLOW_WRITE);
-  }
+  // * Events division
 
-  #getParticipantsOnActivity() {
-    const id = this.activity().id;
-    if (id === 0) return;
-    const bookingsUrl = `${this.#bookingsUrl}?activityId=${id}`;
-    this.#http$.get<Booking[]>(bookingsUrl).subscribe((bookings) => {
-      bookings.forEach((booking) => {
-        this.alreadyParticipants.update((participants) => participants + booking.participants);
-      });
-    });
-  }
-
-  #changeStatusOnTotalParticipants() {
-    const totalParticipants = this.totalParticipants();
-    changeActivityStatus(this.activity(), totalParticipants);
-    this.participants.update((participants) => {
-      participants.splice(0, participants.length);
-      for (let i = 0; i < totalParticipants; i++) {
-        participants.push({ id: participants.length + 1 });
-      }
-      return participants;
-    });
-  }
-
-  #updateActivityOnBookings() {
-    if (!this.booked()) return;
-    this.#activitiesService
-      .putActivity(this.activity())
-      .subscribe(() => console.log('Activity status updated'));
-  }
-
-  onNewParticipantsChange(newParticipants: number) {
-    if (newParticipants > this.maxNewParticipants()) {
-      newParticipants = this.maxNewParticipants();
-    }
+  /** Set the new participants signal when the participants change */
+  onChangeParticipants(newParticipants: number) {
     this.newParticipants.set(newParticipants);
   }
 
-  onBookParticipantsClick() {
-    const newBooking: Booking = {
-      id: 0,
-      userId: 0,
-      activityId: this.activity().id,
-      date: new Date(),
-      participants: this.newParticipants(),
-      payment: {
-        method: 'creditCard',
-        amount: this.bookingAmount(),
-        status: 'pending',
+  /** Post a new booking to the API and update the activity status if it is necessary */
+  onSaveBooking(newBooking: Booking) {
+    this.#service.postBooking$(newBooking).subscribe({
+      next: () => {
+        this.bookingSaved.set(true);
+        this.#service.updateActivityStatus$(this.activity(), this.activityStatus()).subscribe();
       },
-    };
-    this.#http$.post<Booking>(this.#bookingsUrl, newBooking).subscribe({
-      next: () => this.booked.set(true),
       error: (error) => console.error('Error creating booking', error),
     });
   }

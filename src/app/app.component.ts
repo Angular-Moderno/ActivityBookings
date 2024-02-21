@@ -6,13 +6,15 @@ import { HeaderComponent } from './core/header.component';
 @Component({
   selector: 'lab-root',
   standalone: true,
-  imports: [RouterOutlet, FooterComponent, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
   template: `
-    <lab-header />
-    <main>
-      <router-outlet></router-outlet>
-    </main>
-    <lab-footer />
+    <div class="container-fluid">
+      <lab-header />
+      <main>
+        <router-outlet />
+      </main>
+      <lab-footer />
+    </div>
   `,
   styles: [
     `

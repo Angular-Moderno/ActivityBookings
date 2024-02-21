@@ -7,8 +7,8 @@ import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideClientHydration(),
     provideHttpClient(withFetch()),
     provideRouter(routes, withComponentInputBinding()),
-    provideClientHydration(),
   ],
 };
