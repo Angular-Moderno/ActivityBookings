@@ -14,9 +14,19 @@ import { HomeService } from './home.service';
       </header>
       <main>
         @for (activity of activities(); track activity.id) {
-          <lab-activity [activity]="activity" />
+          <lab-activity
+            [activity]="activity"
+            [(favorites)]="favorites"
+            (favoritesChange)="onFavoritesChange($event)"
+          />
         }
       </main>
+      <footer>
+        <small>
+          Showing <mark>{{ activities().length }}</mark> activities, you have selected
+          <mark>{{ favorites.length }}</mark> favorites.
+        </small>
+      </footer>
     </article>
   `,
   styles: ``,
@@ -31,4 +41,16 @@ export default class HomePage {
 
   /** The list of activities to be presented */
   activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
+
+  // * Properties division
+
+  /** The list of favorites */
+  favorites: string[] = [];
+
+  // * Methods division
+
+  /** Handles the change of the favorites list */
+  onFavoritesChange(favorites: string[]): void {
+    console.log('💓 Favorites changed', favorites);
+  }
 }
