@@ -24,6 +24,7 @@
     "paths": {
       "@ui/*": ["src/app/shared/ui/*"],
       "@domain/*": ["src/app/shared/domain/*"],
+      "@services/*": ["src/app/shared/services/*"],
       "@state/*": ["src/app/shared/state/*"],
       "@api/*": ["src/app/shared/api/*"]
     }

@@ -22,6 +22,7 @@ import { ActivityStatusComponent } from '@ui/activity-status.component';
           type="checkbox"
           name=""
           class="secondary outline"
+          [checked]="favorites().includes(activity().slug)"
           (click)="toggleFavorite(activity().slug)"
         />
       </span>

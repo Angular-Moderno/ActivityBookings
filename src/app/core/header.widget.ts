@@ -14,7 +14,7 @@ import { FavoritesStore } from '@state/favorites.store';
         </ul>
         <ul>
           <li>
-            <a [routerLink]="[]">
+            <a [routerLink]="['/', 'favorites']">
               My favorites<sup
                 ><mark>{{ favCount() }}</mark></sup
               >

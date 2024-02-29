@@ -48,7 +48,7 @@ export default class HomePage {
   // * Properties division
 
   /** The list of favorites */
-  favorites: string[] = [];
+  favorites: string[] = this.#favoritesStore.state();
 
   // * Methods division
 
