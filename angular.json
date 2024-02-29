@@ -97,7 +97,7 @@
         },
         "@schematics/angular:service": {
           "flat": true,
-          "skipTests": false
+          "skipTests": true
         }
       },
       "sourceRoot": "src"

@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { FavoritesStore } from '@state/favorites.store';
 
 @Component({
   selector: 'lab-header',
@@ -14,7 +15,9 @@ import { RouterLink } from '@angular/router';
         <ul>
           <li>
             <a [routerLink]="[]">
-              My favorites<sup><mark>0</mark></sup>
+              My favorites<sup
+                ><mark>{{ favCount() }}</mark></sup
+              >
             </a>
           </li>
           <li><a [routerLink]="['/auth', 'login']">Login</a></li>
@@ -30,8 +33,12 @@ import { RouterLink } from '@angular/router';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent {
+export class HeaderWidget {
+  #favoritesStore = inject(FavoritesStore);
+
   // Properties division
 
   readonly title = 'Activity Bookings';
+
+  favCount = this.#favoritesStore.favCount;
 }
