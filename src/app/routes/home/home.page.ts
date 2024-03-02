@@ -1,17 +1,27 @@
-import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  InputSignal,
+  Signal,
+  inject,
+  input,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Activity } from '@domain/activity.type';
+import { SortOrders } from '@domain/filter.type';
 import { FavoritesStore } from '@state/favorites.store';
+import { FilterWidget } from '@ui/filter.widget';
 import { ActivityComponent } from './activity.component';
 import { HomeService } from './home.service';
 
 @Component({
   standalone: true,
-  imports: [ActivityComponent],
+  imports: [ActivityComponent, FilterWidget],
   template: `
     <article>
       <header>
         <h2>Activities</h2>
+        <lab-filter />
       </header>
       <main>
         @for (activity of activities(); track activity.id) {
@@ -24,8 +34,24 @@ import { HomeService } from './home.service';
       </main>
       <footer>
         <small>
-          Showing <mark>{{ activities().length }}</mark> activities, you have selected
-          <mark>{{ favorites.length }}</mark> favorites.
+          <span>
+            Filtering by
+            <mark>{{ search() }}</mark>
+          </span>
+          <span>
+            Order by
+            <mark>{{ orderBy() }} {{ sort() }}</mark>
+          </span>
+          <span>
+            Got
+            <mark>{{ activities().length }}</mark>
+            activities.
+          </span>
+          <span>
+            You have selected
+            <mark>{{ favorites.length }}</mark>
+            favorites.
+          </span>
         </small>
       </footer>
     </article>
@@ -41,6 +67,10 @@ export default class HomePage {
   #favoritesStore = inject(FavoritesStore);
 
   // * Signals division
+
+  search: InputSignal<string | undefined> = input<string>();
+  orderBy: InputSignal<string | undefined> = input<string>();
+  sort: InputSignal<SortOrders | undefined> = input<SortOrders>();
 
   /** The list of activities to be presented */
   activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
