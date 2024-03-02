@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Activity } from '@domain/activity.type';
-import { SortOrders } from '@domain/filter.type';
+import { DEFAULT_FILTER, SortOrders } from '@domain/filter.type';
 import { FavoritesStore } from '@state/favorites.store';
 import { FilterWidget } from '@ui/filter.widget';
 import { ActivityComponent } from './activity.component';
@@ -68,9 +68,12 @@ export default class HomePage {
 
   // * Signals division
 
-  search: InputSignal<string | undefined> = input<string>();
-  orderBy: InputSignal<string | undefined> = input<string>();
-  sort: InputSignal<SortOrders | undefined> = input<SortOrders>();
+  // The search input signal coming from the route query params
+  search: InputSignal<string> = input<string>(DEFAULT_FILTER.search);
+  // The order by input signal coming from the route query params
+  orderBy: InputSignal<string> = input<string>(DEFAULT_FILTER.orderBy);
+  // The sort input signal coming from the route query params
+  sort: InputSignal<SortOrders> = input<SortOrders>(DEFAULT_FILTER.sort);
 
   /** The list of activities to be presented */
   activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });

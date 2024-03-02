@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Activity, NULL_ACTIVITY } from '@domain/activity.type';
+import { Filter } from '@domain/filter.type';
 import { Observable, catchError, map, of, throwError } from 'rxjs';
 
 /**
@@ -43,6 +44,16 @@ export class ActivitiesRepository {
         return of(NULL_ACTIVITY);
       }),
     );
+  }
+
+  /**
+   * Get all activities from the API based on a filter
+   * @param filter The filter to be applied
+   * @returns An observable with the activities
+   */
+  getActivitiesByFilter$(filter: Filter) {
+    const url = `${this.#apiUrl}?q=${filter.search}&_sort=${filter.orderBy}&_order=${filter.sort}`;
+    return this.#http.get<Activity[]>(url);
   }
 
   /**
