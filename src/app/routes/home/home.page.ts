@@ -3,14 +3,16 @@ import {
   Component,
   InputSignal,
   Signal,
+  computed,
   inject,
   input,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Activity } from '@domain/activity.type';
-import { DEFAULT_FILTER, SortOrders } from '@domain/filter.type';
+import { DEFAULT_FILTER, Filter, SortOrders } from '@domain/filter.type';
 import { FavoritesStore } from '@state/favorites.store';
 import { FilterWidget } from '@ui/filter.widget';
+import { Observable, switchMap } from 'rxjs';
 import { ActivityComponent } from './activity.component';
 import { HomeService } from './home.service';
 
@@ -76,7 +78,23 @@ export default class HomePage {
   sort: InputSignal<SortOrders> = input<SortOrders>(DEFAULT_FILTER.sort);
 
   /** The list of activities to be presented */
-  activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
+  // activities: Signal<Activity[]> = toSignal(this.#service.getActivities$(), { initialValue: [] });
+
+  #filter: Signal<Filter> = computed(() => ({
+    search: this.search(),
+    orderBy: this.orderBy(),
+    sort: this.sort(),
+  }));
+
+  #filter$: Observable<Filter> = toObservable(this.#filter);
+
+  #getActivitiesByFilter$ = (filter: Filter) => this.#service.getActivitiesByFilter$(filter);
+
+  #filter$SwitchMapApi$: Observable<Activity[]> = this.#filter$.pipe(
+    switchMap(this.#getActivitiesByFilter$),
+  );
+
+  activities: Signal<Activity[]> = toSignal(this.#filter$SwitchMapApi$, { initialValue: [] });
 
   // * Properties division
 

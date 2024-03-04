@@ -29,7 +29,7 @@ export class SearchComponent {
       fromEvent<Event>(inputEl.nativeElement, 'input')
         .pipe(
           map((event: Event) => (event.target as HTMLInputElement).value),
-          filter((value) => value.length > 2),
+          filter((value) => value.length > 2 || value.length === 0),
           debounceTime(300),
           distinctUntilChanged(),
         )
