@@ -8,6 +8,7 @@ import {
   input,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { Meta, Title } from '@angular/platform-browser';
 import { Activity } from '@domain/activity.type';
 import { DEFAULT_FILTER, Filter, SortOrders } from '@domain/filter.type';
 import { FavoritesStore } from '@state/favorites.store';
@@ -64,8 +65,15 @@ import { HomeService } from './home.service';
 export default class HomePage {
   // * Injected services division
 
+  // The service to get the activities
   #service = inject(HomeService);
 
+  // The title service to update the title
+  #title = inject(Title);
+  // The meta service to update the meta tags
+  #meta = inject(Meta);
+
+  // Signal based store of the favorites
   #favoritesStore = inject(FavoritesStore);
 
   // * Signals division
@@ -101,7 +109,12 @@ export default class HomePage {
   /** The list of favorites */
   favorites: string[] = this.#favoritesStore.state();
 
-  // * Methods division
+  constructor() {
+    this.#title.setTitle('Activities to book');
+    this.#meta.updateTag({ name: 'description', content: 'Activities to book' });
+  }
+
+  // * Event handlers division
 
   /** Handles the change of the favorites list */
   onFavoritesChange(favorites: string[]): void {

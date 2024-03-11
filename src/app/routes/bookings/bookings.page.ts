@@ -4,10 +4,12 @@ import {
   Signal,
   WritableSignal,
   computed,
+  effect,
   inject,
   input,
   signal,
 } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { toSignalMap } from '@api/signal.functions';
 import { getNextActivityStatus } from '@domain/activity.functions';
 import { Activity, ActivityStatus, NULL_ACTIVITY } from '@domain/activity.type';
@@ -57,7 +59,12 @@ import { ParticipantsComponent } from './participants.component';
 export default class BookingsPage {
   // * Injected services division
 
+  // The service to activities and bookings api
   #service = inject(BookingsService);
+  // The title service to update the title
+  #title = inject(Title);
+  // The meta service to update the meta tags
+  #meta = inject(Meta);
 
   // * Input signals division
 
@@ -108,6 +115,15 @@ export default class BookingsPage {
   remainingPlaces: Signal<number> = computed(
     () => this.activity().maxParticipants - this.totalParticipants(),
   );
+
+  constructor() {
+    effect(() => {
+      const activity = this.activity();
+      this.#title.setTitle(activity.name);
+      const description = `${activity.name} at ${activity.location} on ${activity.date} for ${activity.price}€`;
+      this.#meta.updateTag({ name: 'description', content: description });
+    });
+  }
 
   // * Events division
 
