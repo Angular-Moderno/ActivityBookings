@@ -6,6 +6,11 @@
     "name": "Alberto Basalo",
     "url": "https://albertobasalo.dev"
   },
+  "homepage": "https://www.trainingit.es/index.php/producto/angular-moderno-angular-17/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Angular-Moderno/ActivityBookings.git"
+  },
   "scripts": {
     "ng": "ng",
     "chrome": "start chrome -incognito -auto-open-devtools-for-tabs http://localhost:4200",
