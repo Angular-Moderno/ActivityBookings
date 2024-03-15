@@ -1,6 +1,6 @@
 # ActivityBookings
 
-> [Laboratorio de ejemplo](https://github.com/Angular-Moderno/ActivityBookings) para el curso [Angular Basics](https://www.trainingit.es/index.php/producto/angular-moderno-angular-17/) impartido por [Alberto Basalo](https://albertobasalo.dev)
+> Laboratorio de [ejemplo](https://github.com/Angular-Moderno/ActivityBookings) para el curso de [Angular Moderno](https://www.trainingit.es/index.php/producto/angular-moderno-angular-17/) impartido por [Alberto Basalo](https://albertobasalo.dev)
 
 > [!NOTE]
 > This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
@@ -18,22 +18,14 @@ npm start
 npm run api:seed
 ```
 
-## Documentation
-
-Find detailed journal of instructions in [docs folder](./docs/)
-
-### Folder structure
-
-Have an outlook of the project folders structure
-
-![Folders](./docs/screenshots/folders.png)
-
 > [!TIP]
-> Companion article about Angular code organization:
+> Documentación y artículos relacionados con el curso:
 
-- [English version](https://medium.com/@albertobasalo/file-and-folder-structure-for-angular-applications-3130efc582e3)
+- [Carpeta con guía de los vídeos](./docs/)
 
-- [Versión en Español](https://www.linkedin.com/pulse/estructura-de-archivos-y-carpetas-para-aplicaciones-angular-basalo-3vcff)
+- [Estructura de carpetas](https://www.linkedin.com/pulse/estructura-de-archivos-y-carpetas-para-aplicaciones-angular-basalo-3vcff)
+
+- [Configure VsCode](https://albertobasalo.medium.com/how-to-configure-vscode-to-code-better-typescript-d6e000b2cb06)
 
 ## Testing
 
@@ -41,9 +33,9 @@ This project is being _e2e_ tested with **Cypress**. Find the testing code at th
 
 - [**cy-lab**](https://github.com/AlbertoBasalo/cy-lab)
 
-[![GitHub license](https://img.shields.io/github/license/AlbertoBasalo/cy-lab?style=for-the-badge)](https://albertobasalo.dev)
-
 ---
+
+[![GitHub license](https://img.shields.io/github/license/AlbertoBasalo/cy-lab?style=for-the-badge)](https://albertobasalo.dev)
 
 <footer>
   <h3>🧑🏼‍💻 By <a href="https://albertobasalo.dev" target="blank">Alberto Basalo</a> </h3>
