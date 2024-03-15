@@ -1,6 +1,6 @@
 # ActivityBookings
 
-> Laboratorio de [ejemplo](https://github.com/Angular-Moderno/ActivityBookings) para el curso de [Angular Moderno](https://www.trainingit.es/index.php/producto/angular-moderno-angular-17/) impartido por [Alberto Basalo](https://albertobasalo.dev)
+Laboratorio de [ejemplo](https://github.com/Angular-Moderno/ActivityBookings) para el curso de [Angular Moderno](https://www.trainingit.es/index.php/producto/angular-moderno-angular-17/) impartido por [Alberto Basalo](https://albertobasalo.dev)
 
 > [!NOTE]
 > This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
@@ -21,17 +21,14 @@ npm run api:seed
 > [!TIP]
 > Documentación y artículos relacionados con el curso:
 
-- [Carpeta con guía de los vídeos](./docs/)
+- [Carpeta con código resumen de los vídeos](./docs/)
 
 - [Estructura de carpetas](https://www.linkedin.com/pulse/estructura-de-archivos-y-carpetas-para-aplicaciones-angular-basalo-3vcff)
 
 - [Configure VsCode](https://albertobasalo.medium.com/how-to-configure-vscode-to-code-better-typescript-d6e000b2cb06)
 
-## Testing
-
-This project is being _e2e_ tested with **Cypress**. Find the testing code at this repository
-
-- [**cy-lab**](https://github.com/AlbertoBasalo/cy-lab)
+> [!IMPORTANT]  
+> El código se muestra en su última versión. Revisar commits para ver el código en cada vídeo.
 
 ---
 
