@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthRepository } from '@api/auth.repository';
 import { Login } from '@domain/login.type';
 import { LoginForm } from './login.form';
 
@@ -23,7 +24,8 @@ import { LoginForm } from './login.form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class LoginPage {
+  authRepository: AuthRepository = inject(AuthRepository);
   onLogin(login: Login) {
-    console.log(login);
+    this.authRepository.postLogin$(login).subscribe();
   }
 }

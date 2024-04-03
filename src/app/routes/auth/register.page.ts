@@ -1,6 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Register, RegisterForm } from './register.form';
+import { AuthRepository } from '@api/auth.repository';
+import { Register } from '@domain/register.type';
+import { RegisterForm } from './register.form';
 
 @Component({
   standalone: true,
@@ -22,7 +24,9 @@ import { Register, RegisterForm } from './register.form';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class RegisterPage {
+  authRepository: AuthRepository = inject(AuthRepository);
+
   onRegister(register: Register) {
-    console.log('Register', register);
+    this.authRepository.postRegister$(register).subscribe();
   }
 }

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Register } from '@domain/register.type';
 import { ControlComponent } from '@ui/control.component';
 import { matchValidator } from '@ui/form.functions';
 
@@ -68,7 +69,7 @@ import { matchValidator } from '@ui/form.functions';
           [attr.aria-invalid]="form.controls['terms'].invalid"
         />
       </label>
-      <button type="submit" [disabled]="form.invalid">Login</button>
+      <button type="submit" [disabled]="form.invalid">Register</button>
     </form>
   `,
 })
@@ -96,9 +97,3 @@ export class RegisterForm {
     }
   }
 }
-export type Register = {
-  username: string;
-  email: string;
-  password: string;
-  terms: boolean;
-};
