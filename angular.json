@@ -95,6 +95,18 @@
           "inlineTemplate": true,
           "skipTests": true
         },
+        "@schematics/angular:guard": {
+          "flat": true,
+          "skipTests": true
+        },
+        "@schematics/angular:interceptor": {
+          "flat": true,
+          "skipTests": true
+        },
+        "@schematics/angular:resolver": {
+          "flat": true,
+          "skipTests": true
+        },
         "@schematics/angular:service": {
           "flat": true,
           "skipTests": true
