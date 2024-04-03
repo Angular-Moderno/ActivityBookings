@@ -244,17 +244,10 @@
     },
     {
       "email": "a@b.c",
-      "password": "$2a$10$uLzA/S8BjEqwrbbw2UdcS.S54obI7y/YwT3pltQL/xUdR3WTw8usW",
+      "password": "$2a$10$97USUoiNvc2iezbywgWhp.lfhRBoaOjy/DdJeGv4CAK8vT0zdX8lu",
       "username": "Alberto",
       "terms": true,
       "id": 4
-    },
-    {
-      "email": "b@c.d",
-      "password": "$2a$10$oe0TsDVSVz0ThDxHMV.U9euL/R4Pkwto8MShznZo6mef8UM4zi6t2",
-      "username": "B",
-      "terms": true,
-      "id": 5
     }
   ]
 }
