@@ -10,9 +10,10 @@ import {
   signal,
 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import { toSignalMap } from '@api/signal.functions';
 import { getNextActivityStatus } from '@domain/activity.functions';
-import { Activity, ActivityStatus, NULL_ACTIVITY } from '@domain/activity.type';
+import { Activity, ActivityStatus } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
 import { ActivityHeaderComponent } from './activity-header.component';
 import { BookingFormComponent } from './booking-form.component';
@@ -66,6 +67,8 @@ export default class BookingsPage {
   // The meta service to update the meta tags
   #meta = inject(Meta);
 
+  #route = inject(ActivatedRoute);
+
   // * Input signals division
 
   /** The slug of the activity that comes from the router */
@@ -78,12 +81,9 @@ export default class BookingsPage {
 
   // * Computed signals division
 
-  /** The activity that comes from the API based on the slug signal */
-  activity: Signal<Activity> = toSignalMap(
-    this.slug,
-    (slug) => this.#service.getActivityBySlug$(slug),
-    NULL_ACTIVITY,
-  );
+  #resolvedActivity: Activity = this.#route.snapshot.data['activity'];
+  activity: Signal<Activity> = signal(this.#resolvedActivity);
+
   /** The bookings of the activity that comes from the API based on the activity signal */
   activityBookings: Signal<Booking[]> = toSignalMap(
     this.activity,
