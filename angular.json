@@ -88,6 +88,9 @@
       "projectType": "application",
       "root": "",
       "schematics": {
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
         "@schematics/angular:component": {
           "changeDetection": "OnPush",
           "flat": true,

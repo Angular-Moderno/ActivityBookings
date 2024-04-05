@@ -243,9 +243,9 @@
       "id": 3
     },
     {
-      "email": "a@b.c",
-      "password": "$2a$10$97USUoiNvc2iezbywgWhp.lfhRBoaOjy/DdJeGv4CAK8vT0zdX8lu",
-      "username": "Alberto",
+      "email": "an@error.es",
+      "password": "$2a$10$/TuqQ4GsytRRQDspiqBkyOpfmhV//WWwDU1q0RBI2WShPgR4QCz6S",
+      "username": "dsfa",
       "terms": true,
       "id": 4
     }
