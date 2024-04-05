@@ -1,8 +1,21 @@
-import { ChangeDetectionStrategy, Component, InputSignal, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  InputSignal,
+  OutputEmitterRef,
+  input,
+  output,
+} from '@angular/core';
 import { Notification } from '@domain/notification.type';
+/**
+ * Component to show notifications to the user
+ * @param {Notification[]} notifications The list of notifications to show
+ * @emits close The event to close the notifications
+ */
 @Component({
   selector: 'lab-notifications',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   template: `
     <dialog open>
@@ -23,10 +36,15 @@ import { Notification } from '@domain/notification.type';
       </article>
     </dialog>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotificationsComponent {
+  // * Inputs division
+
+  /** The list of notifications to show */
   notifications: InputSignal<Notification[]> = input<Notification[]>([]);
-  close = output();
+
+  // * Outputs division
+
+  /** The event to close the notifications */
+  close: OutputEmitterRef<void> = output();
 }

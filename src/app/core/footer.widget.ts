@@ -14,8 +14,14 @@ import { NotificationsStore } from '@state/notifications.store';
 import { NotificationsComponent } from '@ui/notifications.component';
 import { CookiesComponent } from './cookies.component';
 
+/** Status for cookies user interaction */
 type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
 
+/**
+ * Footer component with the author info and cookies acceptance
+ * Uses the cookies component to manage the cookies status
+ * Uses the notifications component to show the notifications
+ */
 @Component({
   selector: 'lab-footer',
   standalone: true,
@@ -29,8 +35,8 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
         @if (hasNotifications()) {
           <button
             [attr.data-tooltip]="notificationsCount()"
+            (click)="showNotification.set(true)"
             class="outline"
-            (click)="toggleNotifications()"
           >
             🔥
           </button>
@@ -44,13 +50,13 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
               />
             }
             @case ('rejected') {
-              <small>🍪 ❌</small>
+              <small data-tooltip="No cookies applied">🍪 ❌</small>
             }
             @case ('essentials') {
-              <small>🍪 ✅</small>
+              <small data-tooltip="Essential cookies applied">🍪 ✅</small>
             }
             @case ('all') {
-              <small>🍪 ✅ ✅</small>
+              <small data-tooltip="All cookies applied">🍪 ✅ ✅</small>
             }
           }
         </span>
@@ -64,42 +70,54 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterWidget {
-  localRepository: LocalRepository = inject(LocalRepository);
-  // Properties division
+  // * Injected services division
 
+  /** To save and load the Authentication State from the local storage*/
+  #localRepository: LocalRepository = inject(LocalRepository);
+  /** Store for managing notifications state */
   #notificationsStore: NotificationsStore = inject(NotificationsStore);
-  notifications: Signal<Notification[]> = this.#notificationsStore.notifications;
-  notificationsCount: Signal<number> = this.#notificationsStore.count;
-  hasNotifications: Signal<boolean> = computed(() => this.notificationsCount() > 0);
 
-  showNotification: WritableSignal<boolean> = signal<boolean>(false);
+  // * Properties division
 
-  readonly author = {
+  /** The author info */
+  author: { name: string; homepage: string } = {
     name: 'Alberto Basalo',
     homepage: 'https://albertobasalo.dev',
   };
 
-  // Mutable signals division
+  // * Mutable signals division
 
+  /** Signal to indicate if the notifications component should be displayed*/
+  showNotification: WritableSignal<boolean> = signal<boolean>(false);
+
+  /** Signal with cookies status, initially loaded from local storage*/
   cookiesStatus: WritableSignal<CookiesStatus> = signal<CookiesStatus>(
-    this.localRepository.load('cookies', { status: 'pending' }).status as CookiesStatus,
+    this.#localRepository.load('cookies', { status: 'pending' }).status as CookiesStatus,
   );
 
-  onCookiesAccepted = effect(() =>
-    this.localRepository.save('cookies', { status: this.cookiesStatus() }),
+  // * Computed properties division
+
+  /** The list of notifications */
+  notifications: Signal<Notification[]> = this.#notificationsStore.notifications;
+  /** The number of notifications */
+  notificationsCount: Signal<number> = this.#notificationsStore.count;
+  /** Whether there are notifications or not */
+  hasNotifications: Signal<boolean> = computed(() => this.notificationsCount() > 0);
+
+  /** Effect registered as a property, to save the cookies signal state on changes*/
+  onCookiesStatusChanged = effect(() =>
+    this.#localRepository.save('cookies', { status: this.cookiesStatus() }),
   );
 
-  // Public methods division
+  // * Public methods division
 
+  /* Function called from the template (cheap execution) that returns the current year */
   getYear(): number {
     // ! Do not abuse (they are called on every change detection cycle)
     return new Date().getFullYear();
   }
 
-  toggleNotifications(): void {
-    this.showNotification.update((current) => !current);
-  }
-
+  /** On close the notifications modal, hide it and clear notifications */
   onNotificationsClose(): void {
     this.showNotification.set(false);
     this.#notificationsStore.clearNotifications();

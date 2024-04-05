@@ -1,7 +1,12 @@
 import { ChangeDetectionStrategy, Component, OutputEmitterRef, output } from '@angular/core';
 
+/** Acceptance kinds for cookies */
 type Acceptance = 'essentials' | 'all';
 
+/**
+ * Component to display a dialog to accept or cancel cookies
+ * Outputs the rejection or acceptance kind of cookies
+ */
 @Component({
   selector: 'lab-cookies',
   standalone: true,
@@ -30,6 +35,11 @@ type Acceptance = 'essentials' | 'all';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CookiesComponent {
+  // * Output properties division
+
+  /** Output signaling that cookies are not accepted */
   cancel: OutputEmitterRef<void> = output();
-  accept: OutputEmitterRef<Acceptance> = output();
+
+  /** Output signaling that cookies are accepted (all or only essentials) */
+  accept: OutputEmitterRef<Acceptance> = output<Acceptance>();
 }

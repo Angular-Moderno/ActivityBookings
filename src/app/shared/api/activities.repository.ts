@@ -13,10 +13,14 @@ import { Observable, catchError, map, of, throwError } from 'rxjs';
 export class ActivitiesRepository {
   // * Private properties division
 
+  /** The API URL for the activities
+   * @todo Replace with an environment injected variable
+   */
   #apiUrl = 'http://localhost:3000/activities';
 
   // * Injected services division
 
+  /** The HTTP client to make requests to the API */
   #http = inject(HttpClient);
 
   // * Public methods division
@@ -34,7 +38,7 @@ export class ActivitiesRepository {
    * @param slug The slug of the activity to get
    * @returns An observable with the activity or NULL_ACTIVITY if not found
    */
-  getActivityBySlug$(slug: string | undefined) {
+  getActivityBySlug$(slug: string | undefined): Observable<Activity> {
     if (!slug) return of(NULL_ACTIVITY);
     const url = `${this.#apiUrl}?slug=${slug}`;
     return this.#http.get<Activity[]>(url).pipe(
@@ -51,17 +55,26 @@ export class ActivitiesRepository {
    * @param filter The filter to be applied
    * @returns An observable with the activities
    */
-  getActivitiesByFilter$(filter: Filter) {
+  getActivitiesByFilter$(filter: Filter): Observable<Activity[]> {
     const url = `${this.#apiUrl}?q=${filter.search}&_sort=${filter.orderBy}&_order=${filter.sort}`;
     return this.#http.get<Activity[]>(url);
   }
 
   /**
-   * Create a new activity in the API
-   * @param activity The activity to create
-   * @returns An observable with the created activity
+   * Posts a new activity to the API
+   * @param newActivity The new activity to be posted
+   * @returns An observable with the new activity
    */
-  putActivity$(activity: Activity) {
+  postActivity$(newActivity: Activity) {
+    return this.#http.post<Activity>(this.#apiUrl, newActivity);
+  }
+
+  /**
+   * Updates an activity in the API
+   * @param activity The activity to be updated
+   * @returns An observable with the updated activity
+   */
+  putActivity$(activity: Activity): Observable<Activity> {
     const url = `${this.#apiUrl}/${activity.id}`;
     return this.#http.put<Activity>(url, activity).pipe(
       catchError((error) => {

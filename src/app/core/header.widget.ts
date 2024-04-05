@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthStore } from '@state/auth.store';
 import { FavoritesStore } from '@state/favorites.store';
-
+/**
+ * Header widget with the main navigation
+ * Reads the favorites count from the store
+ * Shows the link to the new activity page if the user is authenticated
+ * Shows the link to the login page if the user is anonymous
+ */
 @Component({
   selector: 'lab-header',
   standalone: true,
@@ -15,12 +21,20 @@ import { FavoritesStore } from '@state/favorites.store';
         <ul>
           <li>
             <a [routerLink]="['/', 'favorites']">
-              My favorites<sup
-                ><mark>{{ favCount() }}</mark></sup
-              >
+              <span>
+                My favorites
+                <sup>
+                  <mark>{{ favCount() }}</mark>
+                </sup>
+              </span>
             </a>
           </li>
-          <li><a [routerLink]="['/auth', 'login']">Login</a></li>
+          @if (isAuthenticated()) {
+            <li><a [routerLink]="['/activity']">New Activity</a></li>
+          }
+          @if (isAnonymous()) {
+            <li><a [routerLink]="['/auth', 'login']">Login</a></li>
+          }
         </ul>
       </nav>
     </header>
@@ -34,11 +48,26 @@ import { FavoritesStore } from '@state/favorites.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderWidget {
-  #favoritesStore = inject(FavoritesStore);
+  // * Injected services division
 
-  // Properties division
+  /**  Store for the favorites data*/
+  #favorites: FavoritesStore = inject(FavoritesStore);
 
-  readonly title = 'Activity Bookings';
+  /** The Auth Store to know if user is authenticated */
+  #authStore: AuthStore = inject(AuthStore);
 
-  favCount = this.#favoritesStore.favCount;
+  // * Properties division
+
+  /** Application title */
+  title: string = 'Activity Bookings';
+
+  // * Computed properties division
+
+  /** The number of favorites in a read only signal */
+  favCount: Signal<number> = this.#favorites.count;
+
+  /** The user is authenticated */
+  isAuthenticated: Signal<boolean> = this.#authStore.isAuthenticated;
+  /** The user is anonymous */
+  isAnonymous: Signal<boolean> = this.#authStore.isAnonymous;
 }
