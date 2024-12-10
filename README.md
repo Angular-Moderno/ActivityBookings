@@ -32,6 +32,27 @@ npm run api:seed
 
 ---
 
+## 🚀 Upgrade process:
+
+```bash
+ng update
+
+ng update @angular-eslint/schematics
+
+git commit -m "Upgrade schematics"
+
+ng update @angular/cli@18
+
+git commit -m "Upgrade to Angular 18"
+
+ng update @angular/cli
+
+git commit -m "Upgrade to Angular 19"
+
+```
+
+---
+
 [![GitHub license](https://img.shields.io/github/license/AlbertoBasalo/cy-lab?style=for-the-badge)](https://albertobasalo.dev)
 
 <footer>
