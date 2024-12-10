@@ -18,9 +18,8 @@ import { ActivityComponent } from './activity.component';
 import { HomeService } from './home.service';
 
 @Component({
-  standalone: true,
-  imports: [ActivityComponent, FilterWidget],
-  template: `
+    imports: [ActivityComponent, FilterWidget],
+    template: `
     <article>
       <header>
         <h2>Activities</h2>
@@ -59,8 +58,8 @@ import { HomeService } from './home.service';
       </footer>
     </article>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class HomePage {
   // * Injected services division

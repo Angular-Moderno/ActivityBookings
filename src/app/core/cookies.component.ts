@@ -8,10 +8,9 @@ type Acceptance = 'essentials' | 'all';
  * Outputs the rejection or acceptance kind of cookies
  */
 @Component({
-  selector: 'lab-cookies',
-  standalone: true,
-  imports: [],
-  template: `
+    selector: 'lab-cookies',
+    imports: [],
+    template: `
     <dialog open>
       <article>
         <header>
@@ -31,8 +30,8 @@ type Acceptance = 'essentials' | 'all';
       </article>
     </dialog>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CookiesComponent {
   // * Output properties division

@@ -7,9 +7,8 @@ import { FeedbackComponent } from '@ui/feedback.component';
 import { RegisterForm } from './register.form';
 
 @Component({
-  standalone: true,
-  imports: [RouterLink, RegisterForm, FeedbackComponent],
-  template: `
+    imports: [RouterLink, RegisterForm, FeedbackComponent],
+    template: `
     <article>
       <header>
         <h2>Register</h2>
@@ -23,8 +22,8 @@ import { RegisterForm } from './register.form';
       </footer>
     </article>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class RegisterPage {
   authRepository: AuthRepository = inject(AuthRepository);

@@ -23,10 +23,9 @@ import { SearchComponent } from './search.component';
  * Imports the SearchComponent to use the search term as a model
  */
 @Component({
-  selector: 'lab-filter',
-  standalone: true,
-  imports: [FormsModule, SearchComponent],
-  template: `
+    selector: 'lab-filter',
+    imports: [FormsModule, SearchComponent],
+    template: `
     <form>
       <lab-search [(searchTerm)]="search" />
       <fieldset class="grid">
@@ -46,8 +45,8 @@ import { SearchComponent } from './search.component';
       </fieldset>
     </form>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterWidget {
   // * Injected services division

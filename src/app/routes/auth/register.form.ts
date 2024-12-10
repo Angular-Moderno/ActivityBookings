@@ -5,11 +5,10 @@ import { ControlComponent } from '@ui/control.component';
 import { matchValidator } from '@ui/form.functions';
 
 @Component({
-  selector: 'lab-register',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, ControlComponent],
-  template: `
+    selector: 'lab-register',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ReactiveFormsModule, ControlComponent],
+    template: `
     <form [formGroup]="form" (submit)="onSubmit()">
       <lab-control
         controlName="username"
@@ -71,7 +70,7 @@ import { matchValidator } from '@ui/form.functions';
       </label>
       <button type="submit" [disabled]="form.invalid">Register</button>
     </form>
-  `,
+  `
 })
 export class RegisterForm {
   register = output<Register>();

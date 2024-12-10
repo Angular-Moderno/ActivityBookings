@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component, Signal, computed, input } from '@angular/core';
 
 @Component({
-  selector: 'lab-participants',
-  standalone: true,
-  imports: [],
-  template: `
+    selector: 'lab-participants',
+    imports: [],
+    template: `
     <h4>Participants</h4>
     <div>Already Participants: {{ alreadyParticipants() }}</div>
     <div>Max Participants: {{ activity().maxParticipants }}</div>
@@ -21,8 +20,8 @@ import { ChangeDetectionStrategy, Component, Signal, computed, input } from '@an
       }
     </div>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ParticipantsComponent {
   // * Input signals division

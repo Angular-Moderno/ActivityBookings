@@ -15,10 +15,9 @@ import { Activity } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
 
 @Component({
-  selector: 'lab-booking-form',
-  standalone: true,
-  imports: [CurrencyPipe, FormsModule],
-  template: `
+    selector: 'lab-booking-form',
+    imports: [CurrencyPipe, FormsModule],
+    template: `
     <h4>New Bookings</h4>
     @if (remainingPlaces() > 0) {
       <label for="newParticipants">How many participants want to book?</label>
@@ -44,8 +43,8 @@ import { Booking } from '@domain/booking.type';
     </button>
     <div>{{ bookedMessage() }}</div>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BookingFormComponent {
   // input division

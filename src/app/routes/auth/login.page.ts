@@ -5,9 +5,8 @@ import { Login } from '@domain/login.type';
 import { LoginForm } from './login.form';
 
 @Component({
-  standalone: true,
-  imports: [RouterLink, LoginForm],
-  template: `
+    imports: [RouterLink, LoginForm],
+    template: `
     <article>
       <header>
         <h2>Login</h2>
@@ -20,8 +19,8 @@ import { LoginForm } from './login.form';
       </footer>
     </article>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class LoginPage {
   authRepository: AuthRepository = inject(AuthRepository);

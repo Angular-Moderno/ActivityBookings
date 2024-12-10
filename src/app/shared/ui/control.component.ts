@@ -8,11 +8,10 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
  * @param {unknown} errors The errors to display if any.
  */
 @Component({
-  selector: 'lab-control',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [JsonPipe],
-  template: `
+    selector: 'lab-control',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [JsonPipe],
+    template: `
     <label [for]="controlName()">
       <span>{{ labelDisplay() }}</span>
       @if (errors()) {
@@ -20,7 +19,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       }
       <ng-content />
     </label>
-  `,
+  `
 })
 export class ControlComponent {
   // * Inputs division

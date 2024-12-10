@@ -7,10 +7,9 @@ import { FavoritesStore } from '@state/favorites.store';
 import { Observable, forkJoin } from 'rxjs';
 
 @Component({
-  selector: 'lab-favorites',
-  standalone: true,
-  imports: [RouterLink],
-  template: `
+    selector: 'lab-favorites',
+    imports: [RouterLink],
+    template: `
     @for (activity of activities(); track activity) {
       <div>
         <span>
@@ -23,8 +22,8 @@ import { Observable, forkJoin } from 'rxjs';
       <div>No activities yet</div>
     }
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class FavoritesPage {
   // * Injected services division

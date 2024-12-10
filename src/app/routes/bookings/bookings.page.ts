@@ -21,12 +21,11 @@ import { BookingsService } from './bookings.service';
 import { ParticipantsComponent } from './participants.component';
 
 @Component({
-  selector: 'lab-bookings',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: ``,
-  imports: [ActivityHeaderComponent, ParticipantsComponent, BookingFormComponent],
-  template: `
+    selector: 'lab-bookings',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: ``,
+    imports: [ActivityHeaderComponent, ParticipantsComponent, BookingFormComponent],
+    template: `
     @if (activity(); as activity) {
       <article>
         <header>
@@ -55,7 +54,7 @@ import { ParticipantsComponent } from './participants.component';
         </footer>
       </article>
     }
-  `,
+  `
 })
 export default class BookingsPage {
   // * Injected services division

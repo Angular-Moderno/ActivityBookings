@@ -12,10 +12,9 @@ import { Activity } from '@domain/activity.type';
 import { ActivityStatusComponent } from '@ui/activity-status.component';
 
 @Component({
-  selector: 'lab-activity',
-  standalone: true,
-  imports: [CurrencyPipe, DatePipe, RouterLink, ActivityStatusComponent],
-  template: `
+    selector: 'lab-activity',
+    imports: [CurrencyPipe, DatePipe, RouterLink, ActivityStatusComponent],
+    template: `
     <div>
       <span>
         <input
@@ -35,8 +34,8 @@ import { ActivityStatusComponent } from '@ui/activity-status.component';
       <lab-activity-status [status]="activity().status" />
     </div>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActivityComponent {
   // * Input signals division

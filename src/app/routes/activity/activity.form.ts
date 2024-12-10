@@ -9,11 +9,10 @@ import { rangeValidator } from '@ui/form.functions';
  * Emits the Activity when the form is submitted
  */
 @Component({
-  selector: 'lab-activity',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, ControlComponent],
-  template: `
+    selector: 'lab-activity',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ReactiveFormsModule, ControlComponent],
+    template: `
     <form [formGroup]="form" (submit)="onSubmit()">
       <lab-control controlName="name" labelDisplay="Activity Name" [errors]="form.controls['name'].errors">
         <input formControlName="name" [attr.aria-invalid]="form.controls['name'].invalid" />
@@ -53,7 +52,7 @@ import { rangeValidator } from '@ui/form.functions';
       </lab-control>
       <button type="submit" [disabled]="form.invalid">Submit</button>
     </form>
-  `,
+  `
 })
 export class ActivityForm {
   // * Outputs division

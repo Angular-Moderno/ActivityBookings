@@ -11,13 +11,12 @@ import { ActivityService } from './activity.service';
  * Uses the ActivityService to post the activity
  */
 @Component({
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ActivityForm, FeedbackComponent],
-  template: `
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ActivityForm, FeedbackComponent],
+    template: `
     <lab-activity (save)="onSave($event)" />
     <lab-feedback [feedback]="feedback()" />
-  `,
+  `
 })
 export default class ActivityPage {
   // * Injected services division

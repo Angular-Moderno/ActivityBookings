@@ -8,11 +8,10 @@ import { ControlComponent } from '@ui/control.component';
  * Emits the Login when the form is submitted
  */
 @Component({
-  selector: 'lab-login',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, ControlComponent],
-  template: `
+    selector: 'lab-login',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ReactiveFormsModule, ControlComponent],
+    template: `
     <form [formGroup]="form" (submit)="onSubmit()">
       <lab-control
         controlName="email"
@@ -41,7 +40,7 @@ import { ControlComponent } from '@ui/control.component';
 
       <button type="submit" [disabled]="form.invalid">Login</button>
     </form>
-  `,
+  `
 })
 export class LoginForm {
   // * Outputs division

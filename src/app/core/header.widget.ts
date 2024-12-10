@@ -9,10 +9,9 @@ import { FavoritesStore } from '@state/favorites.store';
  * Shows the link to the login page if the user is anonymous
  */
 @Component({
-  selector: 'lab-header',
-  standalone: true,
-  imports: [RouterLink],
-  template: `
+    selector: 'lab-header',
+    imports: [RouterLink],
+    template: `
     <header>
       <nav>
         <ul>
@@ -39,13 +38,13 @@ import { FavoritesStore } from '@state/favorites.store';
       </nav>
     </header>
   `,
-  styles: `
+    styles: `
     .title {
       font-size: 1.2rem;
       font-weight: bold;
     }
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderWidget {
   // * Injected services division

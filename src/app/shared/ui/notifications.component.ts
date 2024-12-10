@@ -13,11 +13,10 @@ import { Notification } from '@domain/notification.type';
  * @emits close The event to close the notifications
  */
 @Component({
-  selector: 'lab-notifications',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
-  template: `
+    selector: 'lab-notifications',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [],
+    template: `
     <dialog open>
       <article>
         <header>
@@ -35,7 +34,7 @@ import { Notification } from '@domain/notification.type';
         </footer>
       </article>
     </dialog>
-  `,
+  `
 })
 export class NotificationsComponent {
   // * Inputs division

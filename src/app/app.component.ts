@@ -8,10 +8,9 @@ import { HeaderWidget } from './core/header.widget';
  * Uses the router outlet to display the different pages
  */
 @Component({
-  selector: 'lab-root',
-  standalone: true,
-  imports: [RouterOutlet, HeaderWidget, FooterWidget],
-  template: `
+    selector: 'lab-root',
+    imports: [RouterOutlet, HeaderWidget, FooterWidget],
+    template: `
     <div class="container-fluid">
       <lab-header />
       <main>
@@ -20,13 +19,13 @@ import { HeaderWidget } from './core/header.widget';
       <lab-footer />
     </div>
   `,
-  styles: [
-    `
+    styles: [
+        `
       main {
         margin-top: 2rem;
         margin-bottom: 2rem;
       }
     `,
-  ],
+    ]
 })
 export class AppComponent {}

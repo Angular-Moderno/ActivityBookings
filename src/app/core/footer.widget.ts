@@ -23,10 +23,9 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
  * Uses the notifications component to show the notifications
  */
 @Component({
-  selector: 'lab-footer',
-  standalone: true,
-  imports: [CookiesComponent, NotificationsComponent],
-  template: `
+    selector: 'lab-footer',
+    imports: [CookiesComponent, NotificationsComponent],
+    template: `
     <footer>
       <nav>
         <span>
@@ -66,8 +65,8 @@ type CookiesStatus = 'pending' | 'rejected' | 'essentials' | 'all';
       <lab-notifications [notifications]="notifications()" (close)="onNotificationsClose()" />
     }
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FooterWidget {
   // * Injected services division

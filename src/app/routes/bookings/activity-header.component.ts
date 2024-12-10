@@ -5,10 +5,9 @@ import { ActivityStatusComponent } from '@ui/activity-status.component';
 import { ActivityTitlePipe } from '@ui/activity-title.pipe';
 
 @Component({
-  selector: 'lab-activity-header',
-  standalone: true,
-  imports: [ActivityStatusComponent, CurrencyPipe, DatePipe, ActivityTitlePipe],
-  template: `
+    selector: 'lab-activity-header',
+    imports: [ActivityStatusComponent, CurrencyPipe, DatePipe, ActivityTitlePipe],
+    template: `
     <h2>{{ activity() | activityTitle }}</h2>
     <div>
       <span>{{ activity().price | currency }}</span>
@@ -18,8 +17,8 @@ import { ActivityTitlePipe } from '@ui/activity-title.pipe';
       }
     </div>
   `,
-  styles: ``,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: ``,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActivityHeaderComponent {
   // input division

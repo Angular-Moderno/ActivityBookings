@@ -7,12 +7,11 @@ import { ActivityStatus } from '@domain/activity.type';
  * Encapsulates the style and presentation internals of the status
  */
 @Component({
-  selector: 'lab-activity-status',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [UpperCasePipe],
-  template: `<span [class]="status()">{{ status() | uppercase }}</span>`,
-  styles: `
+    selector: 'lab-activity-status',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [UpperCasePipe],
+    template: `<span [class]="status()">{{ status() | uppercase }}</span>`,
+    styles: `
     .draft {
       color: #017fc0;
       font-style: italic;
@@ -35,7 +34,7 @@ import { ActivityStatus } from '@domain/activity.type';
       color: #d93526;
       font-style: italic;
     }
-  `,
+  `
 })
 export class ActivityStatusComponent {
   // * Input signals division
