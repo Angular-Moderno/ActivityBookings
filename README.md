@@ -4,7 +4,7 @@ Laboratorio de [ejemplo](https://github.com/Angular-Moderno/ActivityBookings) pa
 
 > [!NOTE]
 > This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
-> Updated to Angular 17.3.0
+> Updated to Angular 19.0.3
 
 ```bash
 # clone lab from github
