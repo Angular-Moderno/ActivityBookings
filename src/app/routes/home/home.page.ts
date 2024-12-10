@@ -7,13 +7,12 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { Meta, Title } from '@angular/platform-browser';
 import { Activity } from '@domain/activity.type';
 import { DEFAULT_FILTER, Filter, SortOrders } from '@domain/filter.type';
 import { FavoritesStore } from '@state/favorites.store';
 import { FilterWidget } from '@ui/filter.widget';
-import { Observable, switchMap } from 'rxjs';
 import { ActivityComponent } from './activity.component';
 import { HomeService } from './home.service';
 
@@ -93,15 +92,28 @@ export default class HomePage {
     sort: this.sort(),
   }));
 
-  #filter$: Observable<Filter> = toObservable(this.#filter);
-
+  
   #getActivitiesByFilter$ = (filter: Filter) => this.#service.getActivitiesByFilter$(filter);
+  
+  /**
+   * 🚀 ng19 rxResource Migration
+   * - Avoid toObservable
+   * - Avoid switchMap
+   * - Avoid toSignal
+   * - instead use rxResource
+   * - with request and loader
+   */
 
-  #filter$SwitchMapApi$: Observable<Activity[]> = this.#filter$.pipe(
-    switchMap(this.#getActivitiesByFilter$),
-  );
-
-  activities: Signal<Activity[]> = toSignal(this.#filter$SwitchMapApi$, { initialValue: [] });
+  // #filter$: Observable<Filter> = toObservable(this.#filter);
+  // #filter$SwitchMapApi$: Observable<Activity[]> = this.#filter$.pipe(
+  // switchMap(this.#getActivitiesByFilter$),
+  // ); 
+  //activities: Signal<Activity[]> = toSignal(this.#filter$SwitchMapApi$, { initialValue: [] });
+  #activities = rxResource({
+    request: () => this.#filter(),
+    loader: (params) => this.#getActivitiesByFilter$(params.request),
+  });
+  activities: Signal<Activity[]> = computed(()=> this.#activities.value() || []);
 
   // * Properties division
 
