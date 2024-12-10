@@ -9,9 +9,9 @@ import {
   input,
   signal,
 } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { toSignalMap } from '@api/signal.functions';
 import { getNextActivityStatus } from '@domain/activity.functions';
 import { Activity, ActivityStatus } from '@domain/activity.type';
 import { Booking } from '@domain/booking.type';
@@ -84,11 +84,18 @@ export default class BookingsPage {
   activity: Signal<Activity> = signal(this.#resolvedActivity);
 
   /** The bookings of the activity that comes from the API based on the activity signal */
-  activityBookings: Signal<Booking[]> = toSignalMap(
-    this.activity,
-    (activity) => this.#service.getBookingsByActivityId$(activity.id),
-    [],
-  );
+ // activityBookings: Signal<Booking[]> = toSignalMap(
+ //   this.activity,
+     // (activity) => this.#service.getBookingsByActivityId$(activity.id),
+    // [],
+  //);
+
+  activityBookings: Signal<Booking[]> = computed(() => this.#activityBookings.value() || []);
+
+  #activityBookings = rxResource({
+    request: () => this.activity(),
+    loader: (params) => this.#service.getBookingsByActivityId$(params.request.id),
+  });
 
   /** The sum of participants of the bookings of the activity */
   alreadyParticipants: Signal<number> = computed(() =>

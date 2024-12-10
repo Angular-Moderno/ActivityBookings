@@ -2,7 +2,10 @@ import { Signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Observable, switchMap } from 'rxjs';
 
-export type ApiTarget$<T, K> = (sourceValue: T) => Observable<K>;
+
+// ToDo: 🔥 Remove this unused code, bc is replaced by rxResource
+
+type ApiTarget$<T, K> = (sourceValue: T) => Observable<K>;
 
 /**
  * From a source signal, creates another with the result of a target observable
@@ -11,7 +14,7 @@ export type ApiTarget$<T, K> = (sourceValue: T) => Observable<K>;
  * @param initialValue An initial value for the returned signal
  * @returns A signal with the result of the API target observable
  */
-export function toSignalMap<T, K>(
+function toSignalMap<T, K>(
   source: Signal<T>,
   apiTarget$: ApiTarget$<T, K>,
   initialValue: K,
