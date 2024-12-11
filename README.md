@@ -6,7 +6,7 @@ Laboratorio de [ejemplo](https://github.com/Angular-Moderno/ActivityBookings) pa
 > This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
 > Updated to Angular 17.3.0
 
-🔥 Go to [branch 19](https://github.com/Angular-Moderno/ActivityBookings/tree/19) to see 🚀 upgraded version to Angular 1️⃣9️⃣
+🚀 Ve a la [rama 19](https://github.com/Angular-Moderno/ActivityBookings/tree/19) 🔥Para ver la versión actualizada de Angular 1️⃣9️⃣
 
 ```bash
 # clone lab from github
