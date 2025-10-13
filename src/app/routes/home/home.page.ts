@@ -106,9 +106,9 @@ export default class HomePage {
   // );
   //activities: Signal<Activity[]> = toSignal(this.#filter$SwitchMapApi$, { initialValue: [] });
 
-  #activities = rxResource({
-    request: () => this.#filter(),
-    loader: (params) => this.#getActivitiesByFilter$(params.request),
+  #activities = rxResource<Activity[], Filter>({
+    params: () => this.#filter(),
+    stream: (loaderParams) => this.#getActivitiesByFilter$(loaderParams.params),
   });
 
   /** The list of activities to be presented */

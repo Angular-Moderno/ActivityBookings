@@ -100,9 +100,9 @@ export default class BookingsPage {
 
   activityBookings: Signal<Booking[]> = computed(() => this.#activityBookings.value() || []);
 
-  #activityBookings = rxResource({
-    request: () => this.activity(),
-    loader: (params) => this.#service.getBookingsByActivityId$(params.request.id),
+  #activityBookings = rxResource<Booking[], Activity>({
+    params: () => this.activity(),
+    stream: (loaderParams) => this.#service.getBookingsByActivityId$(loaderParams.params.id),
   });
 
   /** The sum of participants of the bookings of the activity */
