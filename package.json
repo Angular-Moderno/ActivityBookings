@@ -1,7 +1,7 @@
 {
   "name": "activity-bookings",
   "description": "Activity administration and booking",
-  "version": "17.3.0",
+  "version": "20.4.0",
   "author": {
     "name": "Alberto Basalo",
     "url": "https://albertobasalo.dev"
@@ -14,7 +14,7 @@
   "scripts": {
     "ng": "ng",
     "chrome": "start chrome -incognito -auto-open-devtools-for-tabs http://localhost:4200",
-    "start": "npm run chrome && ng serve --force-esbuild",
+    "start": "npm run chrome && ng serve ",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

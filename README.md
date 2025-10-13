@@ -42,12 +42,12 @@ ng update @angular-eslint/schematicsa
 git commit -m "Upgrade schematics"
 
 ng update @angular/cli
-
-# Run All (a) migrations
-
 git commit -m "Upgrade to Angular 20"
 
+# Run All (a) migrations
+# https://angular.dev/reference/migrations
 
+git commit -m "Upgrade to Angular 20"
 ```
 
 ---
