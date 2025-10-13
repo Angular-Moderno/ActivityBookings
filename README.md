@@ -37,17 +37,16 @@ npm run api:seed
 ```bash
 ng update
 
-ng update @angular-eslint/schematics
+ng update @angular-eslint/schematicsa
 
 git commit -m "Upgrade schematics"
 
-ng update @angular/cli@18
-
-git commit -m "Upgrade to Angular 18"
-
 ng update @angular/cli
 
-git commit -m "Upgrade to Angular 19"
+# Run All (a) migrations
+
+git commit -m "Upgrade to Angular 20"
+
 
 ```
 
