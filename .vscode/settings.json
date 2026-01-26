@@ -22,5 +22,5 @@
   "window.zoomLevel": 1,
   "workbench.preferredLightColorTheme": "Default Dark Modern",
   "editor.hover.sticky": true,
-  "editor.hover.enabled": false
+  "editor.hover.enabled": "off"
 }

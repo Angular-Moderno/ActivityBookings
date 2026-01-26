@@ -14,8 +14,6 @@ cd ActivityBookings
 npm install
 # start Angular server
 npm start
-# start a fake API server
-npm run api:seed
 ```
 
 > [!TIP]
@@ -29,6 +27,10 @@ npm run api:seed
 
 > [!IMPORTANT]  
 > El código se muestra en su última versión. Revisar commits para ver el código en cada vídeo.
+
+
+> [!IMPORTANT]  
+> API server Follow instructions from [Git hub / Alberto Basalo Labs / Activity Bookings Express](https://github.com/AlbertoBasaloLabs/activity-bookings-express)
 
 ---
 
