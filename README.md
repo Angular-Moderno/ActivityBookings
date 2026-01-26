@@ -4,7 +4,7 @@ Laboratorio de [ejemplo](https://github.com/Angular-Moderno/ActivityBookings) pa
 
 > [!NOTE]
 > This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
-> Updated to Angular 19.0.3
+> Updated to Angular 21.1.1
 
 ```bash
 # clone lab from github
@@ -36,6 +36,8 @@ npm start
 
 ## 🚀 Upgrade process:
 
+> Version 21
+
 ```bash
 ng update
 
@@ -44,12 +46,12 @@ ng update @angular-eslint/schematicsa
 git commit -m "Upgrade schematics"
 
 ng update @angular/cli
-git commit -m "Upgrade to Angular 20"
+git commit -m "Upgrade to Angular 21"
 
 # Run All (a) migrations
 # https://angular.dev/reference/migrations
 
-git commit -m "Upgrade to Angular 20"
+git commit -m "Upgrade to Angular 21"
 ```
 
 ---
