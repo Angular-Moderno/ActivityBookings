@@ -6,11 +6,17 @@ Laboratorio de [ejemplo](https://github.com/Angular-Moderno/ActivityBookings) pa
 > This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.1.1.
 > Updated to Angular 17.3.0
 
+> ♻️ Actualización de API por desactualización de json-server y json-server-auth ❌
+> Usar nueva desde [Git hub / Alberto Basalo Labs / Activity Bookings Express](https://github.com/AlbertoBasaloLabs/activity-bookings-express)
+
 > Actualización a Angular 19 de 12/02/2025
 🚀 Ve a la [rama 19](https://github.com/Angular-Moderno/ActivityBookings/tree/19) 🔥Para ver la versión actualizada de Angular 1️⃣9️⃣
 
 > Actualización a Angular 20 de 13/10/2025
 🚀🚀 Ve a la [rama 20](https://github.com/Angular-Moderno/ActivityBookings/tree/20) 🔥🔥Para ver la versión actualizada de Angular 2️⃣0️⃣
+
+> Actualización a Angular 21 de 26/01/2026
+🚀🚀🚀 Ve a la [rama 21](https://github.com/Angular-Moderno/ActivityBookings/tree/21) 🔥🔥🔥Para ver la versión actualizada de Angular 2️⃣1️⃣
 
 
 ```bash
@@ -22,7 +28,7 @@ npm install
 # start Angular server
 npm start
 # start a fake API server
-npm run api:seed
+# Usar nueva desde [Git hub / Alberto Basalo Labs / Activity Bookings Express](https://github.com/AlbertoBasaloLabs/activity-bookings-express)
 ```
 
 > [!TIP]
